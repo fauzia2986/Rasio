@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petualangan Rasio: Ekspedisi Nusantara | Matematika Kelas 6 SD</title>
+<meta name="description" content="Media Pembelajaran Interaktif Matematika Kelas 6 SD (Fase C) Bab 2: Rasio - Kurikulum Merdeka">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+  if (window.tailwind) tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          nunito: ['Nunito', 'sans-serif'],
+          fredoka: ['Fredoka', 'sans-serif']
+        },
+        colors: {
+          laut: '#0ea5e9',
+          hutan: '#22c55e',
+          matahari: '#f59e0b',
+          jingga: '#fb923c',
+          ungu: '#a855f7',
+          merah: '#ef4444'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root { --bg1: #e0f2fe; --bg2: #fef9c3; --bg3: #dcfce7; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #1e293b;
+  }
+  h1, h2, h3, .font-judul { font-family: 'Fredoka', sans-serif; }
+  .screen { display: none; animation: fadeIn .45s ease; }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(14px);} to { opacity: 1; transform: translateY(0);} }
+  @keyframes pop { 0% { transform: scale(.7); opacity: 0;} 70% { transform: scale(1.08);} 100% { transform: scale(1); opacity: 1;} }
+  @keyframes floaty { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-10px);} }
+  @keyframes wiggle { 0%,100% { transform: rotate(-3deg);} 50% { transform: rotate(3deg);} }
+  @keyframes shake { 0%,100% { transform: translateX(0);} 25% { transform: translateX(-6px);} 75% { transform: translateX(6px);} }
+  @keyframes shimmer { 0% { background-position: -200% 0;} 100% { background-position: 200% 0;} }
+  .pop { animation: pop .4s ease; }
+  .floaty { animation: floaty 3s ease-in-out infinite; }
+  .wiggle { animation: wiggle 1.2s ease-in-out infinite; }
+  .shake { animation: shake .35s ease; }
+  .btn-main {
+    transition: all .2s ease;
+    box-shadow: 0 6px 0 rgba(0,0,0,.18);
+  }
+  .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 0 rgba(0,0,0,.18); }
+  .btn-main:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+  .kartu { transition: transform .25s ease, box-shadow .25s ease; }
+  .kartu:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 35px -12px rgba(0,0,0,.25); }
+  .tab-btn { transition: all .2s ease; }
+  .tab-btn.active { background: #0ea5e9; color: #fff; box-shadow: 0 6px 14px -4px rgba(14,165,233,.6); }
+  .tab-btn.done::after { content: ' ✓'; }
+  .input-angka {
+    width: 4.2rem; text-align: center; font-weight: 800; font-size: 1.25rem;
+    border: 3px solid #cbd5e1; border-radius: .9rem; padding: .3rem .2rem;
+    background: #fff; transition: all .2s ease; font-family: 'Fredoka', sans-serif;
+  }
+  .input-angka:focus { outline: none; border-color: #0ea5e9; box-shadow: 0 0 0 4px rgba(14,165,233,.25); }
+  .input-angka.benar { border-color: #22c55e; background: #f0fdf4; }
+  .input-angka.salah { border-color: #ef4444; background: #fef2f2; }
+  .input-angka:disabled { opacity: .8; }
+  .umpan-balik { display: none; animation: pop .35s ease; }
+  .umpan-balik.show { display: block; }
+  .objek { font-size: 2rem; display: inline-block; animation: pop .4s ease; }
+  .kotak-bar {
+    width: 2rem; height: 2rem; border-radius: .45rem; display: inline-block;
+    margin: 2px; box-shadow: inset 0 -4px 0 rgba(0,0,0,.15); animation: pop .3s ease;
+  }
+  @media (max-width: 640px) { .kotak-bar { width: 1.4rem; height: 1.4rem; } }
+  .opsi {
+    transition: all .2s ease; cursor: pointer; border: 3px solid #e2e8f0;
+  }
+  .opsi:hover:not(.terkunci) { border-color: #0ea5e9; background: #f0f9ff; transform: translateX(4px); }
+  .opsi.dipilih { border-color: #0ea5e9; background: #e0f2fe; }
+  .opsi.benar { border-color: #22c55e; background: #dcfce7; }
+  .opsi.salah { border-color: #ef4444; background: #fee2e2; }
+  .opsi.terkunci { cursor: default; }
+  .nav-soal {
+    width: 2.4rem; height: 2.4rem; border-radius: .75rem; font-weight: 800; transition: all .2s ease;
+    display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif;
+  }
+  .nav-soal.aktif { outline: 3px solid #0ea5e9; outline-offset: 2px; transform: scale(1.1); }
+  .modal-bg { display: none; animation: fadeIn .25s ease; }
+  .modal-bg.show { display: flex; }
+  .gembok { transition: all .4s ease; }
+  .gembok.terkunci { filter: grayscale(.9); opacity: .55; pointer-events: none; }
+  .gembok.terbuka { filter: none; opacity: 1; pointer-events: auto; }
+  .bintang { color: #fbbf24; text-shadow: 0 2px 6px rgba(251,191,36,.6); }
+  .progress-bar { height: 100%; transition: width .5s ease; background: linear-gradient(90deg,#22c55e,#86efac,#22c55e); background-size: 200% 100%; animation: shimmer 2.5s linear infinite; }
+  .toast {
+    position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%) translateY(120px);
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1); z-index: 90;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .panah-op {
+    display: inline-flex; align-items: center; justify-content: center; gap: .15rem;
+    font-weight: 800; font-size: .8rem; color: #fff; background: #fb923c; border-radius: 999px;
+    padding: .15rem .55rem; white-space: nowrap; box-shadow: 0 3px 0 rgba(0,0,0,.15);
+  }
+  .table-rasio td, .table-rasio th { padding: .5rem .4rem; text-align: center; }
+  .scroll-tipis::-webkit-scrollbar { height: 6px; width: 6px; }
+  .scroll-tipis::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 999px; }
+  .langkah-aktif { display: none; animation: fadeIn .35s ease; }
+  .langkah-aktif.show { display: block; }
+  .chip { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; padding: .2rem .7rem; font-weight: 800; font-size: .8rem; }
+</style>
+</head>
+<body class="font-nunito">
+
+<!-- ================= HEADER TETAP ================= -->
+<header id="header-app" class="sticky top-0 z-40 bg-white/80 backdrop-blur-md shadow-md hidden">
+  <div class="max-w-6xl mx-auto px-3 sm:px-5 py-2 flex items-center justify-between gap-2">
+    <button onclick="tampilkanLayar('peta')" class="btn-main flex items-center gap-2 bg-laut text-white font-bold rounded-xl px-3 py-2 text-sm sm:text-base">
+      <i class="fa-solid fa-map-location-dot"></i><span class="hidden sm:inline">Peta Belajar</span><span class="sm:hidden">Peta</span>
+    </button>
+    <div class="flex-1 text-center">
+      <span class="font-judul text-base sm:text-xl text-sky-700 font-semibold leading-tight block" id="judul-header">Petualangan Rasio</span>
+    </div>
+    <div class="flex items-center gap-1 sm:gap-2">
+      <div id="bintang-header" class="hidden sm:flex items-center gap-1 bg-amber-50 border-2 border-amber-200 rounded-xl px-2 py-1 text-sm font-extrabold text-amber-600"></div>
+      <button onclick="bukaModal('petunjuk')" title="Petunjuk Penggunaan" class="w-9 h-9 rounded-xl bg-sky-100 hover:bg-sky-200 text-sky-700 transition"><i class="fa-solid fa-circle-question"></i></button>
+      <button onclick="bukaModal('cptp')" title="CP & TP" class="w-9 h-9 rounded-xl bg-green-100 hover:bg-green-200 text-green-700 transition"><i class="fa-solid fa-bullseye"></i></button>
+      <button onclick="bukaModal('profil')" title="Profil Pengembang" class="w-9 h-9 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-700 transition"><i class="fa-solid fa-user-tie"></i></button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-3 sm:px-5 py-4 sm:py-6">
+
+<!-- ================= LAYAR BERANDA ================= -->
+<section id="layar-beranda" class="screen active">
+  <div class="min-h-[88vh] flex flex-col items-center justify-center text-center relative overflow-hidden">
+    <div class="absolute -top-6 left-4 text-5xl floaty opacity-70">☁️</div>
+    <div class="absolute top-10 right-8 text-4xl floaty opacity-70" style="animation-delay:1s">☁️</div>
+    <div class="absolute bottom-16 left-10 text-5xl floaty" style="animation-delay:.5s">🌴</div>
+    <div class="absolute bottom-10 right-10 text-5xl floaty" style="animation-delay:1.5s">⛵</div>
+
+    <div class="bg-white/85 backdrop-blur rounded-3xl shadow-2xl p-6 sm:p-10 max-w-2xl w-full border-4 border-white pop">
+      <div class="text-6xl sm:text-7xl mb-3 wiggle inline-block">🧭</div>
+      <p class="chip bg-sky-100 text-sky-700 mb-2"><i class="fa-solid fa-book-open"></i> Matematika Kelas 6 SD · Fase C · Bab 2: Rasio</p>
+      <h1 class="text-3xl sm:text-5xl font-bold text-sky-700 leading-tight">Petualangan Rasio</h1>
+      <h2 class="text-xl sm:text-3xl font-semibold text-amber-500 mb-3">Ekspedisi Nusantara</h2>
+      <p class="text-slate-600 font-semibold mb-6 text-sm sm:text-base">Jelajahi 4 pos petualangan, selesaikan laboratorium interaktif, dan kumpulkan bintang untuk menjadi <span class="text-green-600 font-extrabold">Penjelajah Rasio Sejati</span>!</p>
+
+      <button onclick="mulaiBelajar()" class="btn-main bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xl sm:text-2xl font-judul font-semibold rounded-2xl px-10 py-4 mb-5 w-full sm:w-auto">
+        <i class="fa-solid fa-play mr-2"></i> Mulai Belajar
+      </button>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <button onclick="bukaModal('petunjuk')" class="btn-main bg-sky-500 text-white font-bold rounded-xl px-3 py-3 text-sm"><i class="fa-solid fa-circle-question mr-1"></i> Petunjuk Penggunaan</button>
+        <button onclick="bukaModal('cptp')" class="btn-main bg-amber-500 text-white font-bold rounded-xl px-3 py-3 text-sm"><i class="fa-solid fa-bullseye mr-1"></i> CP &amp; TP</button>
+        <button onclick="bukaModal('profil')" class="btn-main bg-purple-500 text-white font-bold rounded-xl px-3 py-3 text-sm"><i class="fa-solid fa-user-tie mr-1"></i> Profil Pengembang</button>
+      </div>
+    </div>
+    <p class="mt-4 text-xs text-slate-500 font-semibold">Mengacu pada Buku Teks Utama Matematika Kelas VI Kurikulum Merdeka (SIBI, Kemendikdasmen)</p>
+  </div>
+</section>
+
+<!-- ================= PETA PETUALANGAN ================= -->
+<section id="layar-peta" class="screen">
+  <div class="text-center mb-5">
+    <h2 class="text-2xl sm:text-4xl font-bold text-sky-700"><i class="fa-solid fa-map text-amber-500"></i> Peta Petualangan</h2>
+    <p class="text-slate-600 font-semibold text-sm sm:text-base">Pilih pos untuk memulai. Selesaikan setiap pos untuk mendapatkan bintang ⭐</p>
+    <div class="max-w-md mx-auto mt-3 bg-white/80 rounded-2xl p-3 shadow">
+      <div class="flex justify-between text-xs font-extrabold text-slate-600 mb-1"><span>Progres Ekspedisi</span><span id="teks-progres">0 / 4 Pos</span></div>
+      <div class="h-4 bg-slate-200 rounded-full overflow-hidden"><div id="bar-progres" class="progress-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="grid-peta">
+    <button onclick="bukaPos(1)" class="kartu text-left bg-white rounded-2xl shadow-lg p-5 border-b-8 border-sky-400 relative">
+      <span id="status-pos1" class="absolute top-3 right-3 chip bg-slate-100 text-slate-500">Belum Selesai</span>
+      <div class="text-5xl mb-3">🌱</div>
+      <p class="text-xs font-extrabold text-sky-500 uppercase tracking-wide">Pos 1 · Subbab A</p>
+      <h3 class="text-xl font-bold text-slate-800">Konsep Rasio</h3>
+      <p class="text-sm text-slate-600 mt-1">Bedakan selisih dan rasio, pahami pentingnya urutan, dan coba Lab "Jangan Terbalik!"</p>
+    </button>
+    <button onclick="bukaPos(2)" class="kartu text-left bg-white rounded-2xl shadow-lg p-5 border-b-8 border-green-400 relative">
+      <span id="status-pos2" class="absolute top-3 right-3 chip bg-slate-100 text-slate-500">Belum Selesai</span>
+      <div class="text-5xl mb-3">⚖️</div>
+      <p class="text-xs font-extrabold text-green-500 uppercase tracking-wide">Pos 2 · Subbab B</p>
+      <h3 class="text-xl font-bold text-slate-800">Kesamaan Rasio</h3>
+      <p class="text-sm text-slate-600 mt-1">Tabel rasio, rasio paling sederhana, rasio satuan, dan diagram kotak bagian-keseluruhan.</p>
+    </button>
+    <button onclick="bukaPos(3)" class="kartu text-left bg-white rounded-2xl shadow-lg p-5 border-b-8 border-amber-400 relative">
+      <span id="status-pos3" class="absolute top-3 right-3 chip bg-slate-100 text-slate-500">Belum Selesai</span>
+      <div class="text-5xl mb-3">⏰</div>
+      <p class="text-xs font-extrabold text-amber-500 uppercase tracking-wide">Pos 3 · Subbab C</p>
+      <h3 class="text-xl font-bold text-slate-800">Penerapan Rasio Waktu</h3>
+      <p class="text-sm text-slate-600 mt-1">Samakan satuan waktu lebih dulu, lalu sederhanakan rasio dengan Lab Gembok Konversi.</p>
+    </button>
+    <button onclick="bukaPos(4)" class="kartu text-left bg-white rounded-2xl shadow-lg p-5 border-b-8 border-purple-400 relative">
+      <span id="status-pos4" class="absolute top-3 right-3 chip bg-slate-100 text-slate-500">Belum Selesai</span>
+      <div class="text-5xl mb-3">🏆</div>
+      <p class="text-xs font-extrabold text-purple-500 uppercase tracking-wide">Pos 4 · Evaluasi</p>
+      <h3 class="text-xl font-bold text-slate-800">Uji Kemampuan</h3>
+      <p class="text-sm text-slate-600 mt-1">10 soal pilihan ganda dengan pembahasan langkah demi langkah. Skor ≥ 70 untuk lulus misi!</p>
+      <p id="skor-terbaik" class="text-xs font-extrabold text-purple-600 mt-2 hidden"></p>
+    </button>
+  </div>
+
+  <div class="text-center mt-6">
+    <button onclick="resetProgres()" class="text-xs font-bold text-slate-500 hover:text-red-500 transition"><i class="fa-solid fa-rotate-left"></i> Atur ulang progres</button>
+  </div>
+</section>
+
+<!-- ================= POS 1: KONSEP RASIO ================= -->
+<section id="layar-pos1" class="screen">
+  <div class="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border-t-8 border-sky-400">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+      <div>
+        <p class="text-xs font-extrabold text-sky-500 uppercase">Pos 1 · Subbab A</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">🌱 Konsep Rasio</h2>
+      </div>
+      <div class="flex gap-2 bg-slate-100 p-1 rounded-2xl" id="tab-pos1">
+        <button class="tab-btn active rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiTabPos1(1)" id="tabp1-1">1. Selisih vs Rasio</button>
+        <button class="tab-btn rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiTabPos1(2)" id="tabp1-2">2. Urutan</button>
+        <button class="tab-btn rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiTabPos1(3)" id="tabp1-3">3. Lab</button>
+      </div>
+    </div>
+
+    <!-- Langkah 1 -->
+    <div id="p1-langkah1" class="langkah-aktif show">
+      <div class="grid lg:grid-cols-2 gap-4">
+        <div class="bg-sky-50 rounded-2xl p-4 border-2 border-sky-100">
+          <h3 class="text-lg font-bold text-sky-700 mb-2"><i class="fa-solid fa-mug-hot"></i> Resep Es Susu Cokelat Bu Ani</h3>
+          <p class="text-sm text-slate-700 font-semibold mb-3">Bu Ani membuat es susu cokelat dengan <b>3 gelas susu</b> dan <b>2 gelas cokelat</b>. Bagaimana cara membandingkan kedua takaran itu?</p>
+          <div class="flex gap-6 justify-center items-end bg-white rounded-xl p-3">
+            <div class="text-center">
+              <div class="flex gap-1 justify-center"><span class="objek">🥛</span><span class="objek">🥛</span><span class="objek">🥛</span></div>
+              <p class="font-extrabold text-sky-600 mt-1">Susu: 3 gelas</p>
+            </div>
+            <div class="text-center">
+              <div class="flex gap-1 justify-center"><span class="objek">🍫</span><span class="objek">🍫</span></div>
+              <p class="font-extrabold text-amber-700 mt-1">Cokelat: 2 gelas</p>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button onclick="pilihCaraBanding('selisih')" id="btn-selisih" class="btn-main flex-1 bg-amber-400 text-white font-extrabold rounded-xl py-2 text-sm">Bandingkan dengan Selisih</button>
+            <button onclick="pilihCaraBanding('rasio')" id="btn-rasio" class="btn-main flex-1 bg-sky-500 text-white font-extrabold rounded-xl py-2 text-sm">Bandingkan dengan Rasio</button>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border-2 border-dashed border-slate-200 flex flex-col justify-center" id="hasil-banding">
+          <div class="text-center text-slate-400 font-semibold"><div class="text-5xl mb-2">👆</div>Klik salah satu tombol untuk melihat perbedaannya!</div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-2xl p-4">
+        <p class="font-bold"><i class="fa-solid fa-lightbulb text-yellow-300"></i> Kesimpulan</p>
+        <p class="text-sm font-semibold">
+          <b>Selisih</b> membandingkan dengan <u>pengurangan</u> ("lebih banyak 1 gelas").
+          <b>Rasio</b> membandingkan dengan <u>perbandingan</u> dan ditulis dengan tanda titik dua: <b>3 : 2</b>, dibaca "tiga banding dua".
+          Rasio adalah cara membandingkan dua besaran dengan <b>pembagian</b>, bukan pengurangan.
+        </p>
+      </div>
+      <div class="text-right mt-4"><button onclick="gantiTabPos1(2)" class="btn-main bg-sky-500 text-white font-extrabold rounded-xl px-5 py-2">Lanjut ke Langkah 2 <i class="fa-solid fa-arrow-right"></i></button></div>
+    </div>
+
+    <!-- Langkah 2 -->
+    <div id="p1-langkah2" class="langkah-aktif">
+      <div class="bg-amber-50 rounded-2xl p-4 border-2 border-amber-100 mb-4">
+        <h3 class="text-lg font-bold text-amber-700 mb-1"><i class="fa-solid fa-arrow-right-arrow-left"></i> Urutan Itu Penting! a : b ≠ b : a</h3>
+        <p class="text-sm font-semibold text-slate-700">Dalam rasio, <b>besaran yang disebut lebih dulu ditulis di depan</b>. Perhatikan dua kalimat berikut untuk gelas yang sama (3 susu, 2 cokelat):</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-white rounded-2xl p-4 shadow border-l-8 border-sky-400">
+          <p class="font-bold text-slate-700">"Rasio <span class="text-sky-600">susu</span> terhadap <span class="text-amber-700">cokelat</span>"</p>
+          <div class="flex items-center justify-center gap-3 my-3 text-4xl font-judul font-bold">
+            <div class="text-center"><div>🥛🥛🥛</div><div class="text-sky-600">3</div></div>
+            <div class="text-slate-400">:</div>
+            <div class="text-center"><div>🍫🍫</div><div class="text-amber-700">2</div></div>
+          </div>
+          <p class="text-center font-extrabold text-sky-700 text-xl">3 : 2</p>
+          <p class="text-xs text-center text-slate-500 font-semibold mt-1">Susu disebut lebih dulu → angka susu (3) di depan</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 shadow border-l-8 border-amber-400">
+          <p class="font-bold text-slate-700">"Rasio <span class="text-amber-700">cokelat</span> terhadap <span class="text-sky-600">susu</span>"</p>
+          <div class="flex items-center justify-center gap-3 my-3 text-4xl font-judul font-bold">
+            <div class="text-center"><div>🍫🍫</div><div class="text-amber-700">2</div></div>
+            <div class="text-slate-400">:</div>
+            <div class="text-center"><div>🥛🥛🥛</div><div class="text-sky-600">3</div></div>
+          </div>
+          <p class="text-center font-extrabold text-amber-700 text-xl">2 : 3</p>
+          <p class="text-xs text-center text-slate-500 font-semibold mt-1">Cokelat disebut lebih dulu → angka cokelat (2) di depan</p>
+        </div>
+      </div>
+      <div class="mt-4 bg-red-50 border-2 border-red-200 rounded-2xl p-4 flex gap-3 items-start">
+        <div class="text-3xl">⚠️</div>
+        <p class="text-sm font-semibold text-red-700">3 : 2 dan 2 : 3 adalah rasio yang <b>berbeda</b>! Jika tertukar, maknanya ikut berubah. Jadi, bacalah kalimat soal dengan teliti: <b>kata "terhadap"</b> menjadi penanda urutan: <i>a terhadap b</i> ditulis <b>a : b</b>.</p>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button onclick="gantiTabPos1(1)" class="btn-main bg-slate-400 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+        <button onclick="gantiTabPos1(3)" class="btn-main bg-sky-500 text-white font-extrabold rounded-xl px-5 py-2">Masuk Lab <i class="fa-solid fa-flask"></i></button>
+      </div>
+    </div>
+
+    <!-- Langkah 3: Lab -->
+    <div id="p1-langkah3" class="langkah-aktif">
+      <div class="bg-green-50 rounded-2xl p-4 border-2 border-green-100 mb-4">
+        <h3 class="text-lg font-bold text-green-700 mb-1"><i class="fa-solid fa-flask"></i> Lab Interaktif: "Jangan Terbalik!"</h3>
+        <p class="text-sm font-semibold text-slate-700">Kelompok Pecinta Alam menyiapkan bibit untuk penghijauan. Perhatikan jumlah bibit di bawah ini, lalu lengkapi kedua rasio dengan urutan yang benar.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div class="bg-white rounded-2xl p-4 shadow text-center border-2 border-emerald-200">
+          <p class="font-extrabold text-emerald-700 mb-2">Bibit Mahoni</p>
+          <div class="text-3xl leading-relaxed"><span class="objek">🌳</span><span class="objek">🌳</span><span class="objek">🌳</span><span class="objek">🌳</span></div>
+          <p class="font-judul text-3xl font-bold text-emerald-600">4</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 shadow text-center border-2 border-lime-200">
+          <p class="font-extrabold text-lime-700 mb-2">Bibit Jati</p>
+          <div class="text-3xl leading-relaxed"><span class="objek">🌲</span><span class="objek">🌲</span><span class="objek">🌲</span><span class="objek">🌲</span><span class="objek">🌲</span><span class="objek">🌲</span></div>
+          <p class="font-judul text-3xl font-bold text-lime-600">6</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="bg-white rounded-2xl p-4 shadow border-2 border-slate-100" id="lab1-t1">
+          <p class="font-bold text-slate-700 mb-2"><span class="chip bg-sky-100 text-sky-700 mr-1">Tantangan 1</span> Rasio bibit <b class="text-emerald-700">mahoni</b> terhadap bibit <b class="text-lime-700">jati</b> adalah</p>
+          <div class="flex items-center gap-2 flex-wrap">
+            <input type="number" class="input-angka" id="l1a" placeholder="?"> <span class="text-2xl font-bold">:</span>
+            <input type="number" class="input-angka" id="l1b" placeholder="?">
+            <button onclick="cekLab1(1)" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-4 py-2 ml-2"><i class="fa-solid fa-check"></i> Periksa</button>
+          </div>
+          <div id="fb-l1-1" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+        </div>
+        <div class="bg-white rounded-2xl p-4 shadow border-2 border-slate-100" id="lab1-t2">
+          <p class="font-bold text-slate-700 mb-2"><span class="chip bg-amber-100 text-amber-700 mr-1">Tantangan 2</span> Rasio bibit <b class="text-lime-700">jati</b> terhadap bibit <b class="text-emerald-700">mahoni</b> adalah</p>
+          <div class="flex items-center gap-2 flex-wrap">
+            <input type="number" class="input-angka" id="l2a" placeholder="?"> <span class="text-2xl font-bold">:</span>
+            <input type="number" class="input-angka" id="l2b" placeholder="?">
+            <button onclick="cekLab1(2)" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-4 py-2 ml-2"><i class="fa-solid fa-check"></i> Periksa</button>
+          </div>
+          <div id="fb-l1-2" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+        </div>
+      </div>
+      <div id="pos1-selesai" class="hidden mt-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl p-4 text-center pop">
+        <div class="text-4xl mb-1">🎉⭐</div>
+        <p class="font-judul text-xl font-bold">Pos 1 Selesai! Kamu paham bahwa urutan rasio itu penting.</p>
+        <button onclick="bukaPos(2)" class="btn-main bg-white text-green-700 font-extrabold rounded-xl px-5 py-2 mt-3">Lanjut ke Pos 2 <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button onclick="gantiTabPos1(2)" class="btn-main bg-slate-400 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+        <button onclick="tampilkanLayar('peta')" class="btn-main bg-sky-500 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-map"></i> Ke Peta</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POS 2: KESAMAAN RASIO ================= -->
+<section id="layar-pos2" class="screen">
+  <div class="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border-t-8 border-green-400">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+      <div>
+        <p class="text-xs font-extrabold text-green-500 uppercase">Pos 2 · Subbab B</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">⚖️ Kesamaan Rasio</h2>
+      </div>
+      <div class="flex gap-2 bg-slate-100 p-1 rounded-2xl flex-wrap">
+        <button class="tab-btn active rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiTabPos2(1)" id="tabp2-1">Lab 1: Tabel Rasio</button>
+        <button class="tab-btn rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiTabPos2(2)" id="tabp2-2">Lab 2: Rasio Satuan</button>
+        <button class="tab-btn rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiTabPos2(3)" id="tabp2-3">Lab 3: Bar Model</button>
+      </div>
+    </div>
+
+    <!-- Sub-Lab 1 -->
+    <div id="p2-lab1" class="langkah-aktif show">
+      <div class="grid lg:grid-cols-5 gap-4">
+        <div class="lg:col-span-2 bg-green-50 rounded-2xl p-4 border-2 border-green-100">
+          <h3 class="font-bold text-green-700 text-lg mb-2"><i class="fa-solid fa-table"></i> Rasio Senilai &amp; Rasio Paling Sederhana</h3>
+          <p class="text-sm font-semibold text-slate-700 mb-2">Dua rasio dikatakan <b>senilai (sama)</b> jika didapat dengan <b>mengalikan</b> atau <b>membagi</b> kedua bilangannya dengan <b>angka yang sama</b>.</p>
+          <div class="bg-white rounded-xl p-3 text-center font-judul text-lg mb-2">
+            <span class="text-sky-600 font-bold">3 : 2</span> <span class="panah-op">× 2</span> <span class="text-sky-600 font-bold">6 : 4</span> <span class="panah-op">× 3</span> <span class="text-sky-600 font-bold">18 : 12</span>
+          </div>
+          <p class="text-sm font-semibold text-slate-700 mb-2"><b>Rasio paling sederhana</b> didapat dengan membagi kedua bilangan dengan <b>FPB</b> (Faktor Persekutuan Terbesar)-nya.</p>
+          <div class="bg-white rounded-xl p-3 text-center font-judul text-lg">
+            <span class="text-amber-600 font-bold">18 : 12</span> <span class="panah-op" style="background:#0ea5e9">÷ 6</span> <span class="text-amber-600 font-bold">3 : 2</span>
+            <p class="text-xs text-slate-500 font-semibold">FPB dari 18 dan 12 adalah 6</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 space-y-4">
+          <div class="bg-white rounded-2xl p-4 shadow border-2 border-slate-100">
+            <p class="font-bold text-slate-700 mb-1"><span class="chip bg-green-100 text-green-700">Simulasi A</span> Tabel Rasio Resep Es Susu Cokelat</p>
+            <p class="text-xs font-semibold text-slate-500 mb-2">Setiap 1 gelas es memakai 3 sendok susu dan 2 sendok cokelat. Lengkapi tabel!</p>
+            <div class="overflow-x-auto scroll-tipis">
+              <table class="table-rasio w-full text-sm font-extrabold min-w-[480px]">
+                <thead>
+                  <tr class="text-slate-500">
+                    <th></th>
+                    <th class="bg-slate-50 rounded-t-xl">1 gelas</th>
+                    <th><span class="panah-op">× 2</span></th>
+                    <th class="bg-slate-50 rounded-t-xl">2 gelas</th>
+                    <th><span class="panah-op">× 3</span></th>
+                    <th class="bg-slate-50 rounded-t-xl">3 gelas</th>
+                    <th><span class="panah-op">× 5</span></th>
+                    <th class="bg-slate-50 rounded-t-xl">5 gelas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-sky-50">
+                    <td class="text-sky-700 text-left pl-2">🥛 Susu</td>
+                    <td class="text-xl text-sky-700">3</td><td class="text-slate-300">→</td>
+                    <td><input type="number" class="input-angka" id="t1" placeholder="?"></td><td class="text-slate-300">→</td>
+                    <td class="text-xl text-sky-700">9</td><td class="text-slate-300">→</td>
+                    <td><input type="number" class="input-angka" id="t2" placeholder="?"></td>
+                  </tr>
+                  <tr class="bg-amber-50">
+                    <td class="text-amber-700 text-left pl-2">🍫 Cokelat</td>
+                    <td class="text-xl text-amber-700">2</td><td class="text-slate-300">→</td>
+                    <td class="text-xl text-amber-700">4</td><td class="text-slate-300">→</td>
+                    <td><input type="number" class="input-angka" id="t3" placeholder="?"></td><td class="text-slate-300">→</td>
+                    <td><input type="number" class="input-angka" id="t4" placeholder="?"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-xs font-semibold text-slate-500 mt-1">Catatan: tanda panah dari kolom "1 gelas" menunjukkan pengali terhadap resep dasar.</p>
+            <button onclick="cekTabel()" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-4 py-2 mt-2"><i class="fa-solid fa-check"></i> Periksa Tabel</button>
+            <div id="fb-tabel" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-4 shadow border-2 border-slate-100">
+            <p class="font-bold text-slate-700 mb-1"><span class="chip bg-amber-100 text-amber-700">Simulasi B</span> Sederhanakan dengan FPB</p>
+            <p class="text-xs font-semibold text-slate-500 mb-2">Di kebun sekolah ada 24 bibit cabai dan 36 bibit tomat. Tentukan rasio paling sederhana cabai terhadap tomat.</p>
+            <div class="flex items-center gap-2 flex-wrap font-judul text-xl">
+              <span class="font-bold text-slate-700">24 : 36</span>
+              <span class="panah-op" style="background:#0ea5e9">÷ <input type="number" class="input-angka" id="fpb" placeholder="FPB" style="width:3.6rem;font-size:1rem;padding:.1rem;border-width:2px"></span>
+              <input type="number" class="input-angka" id="s1" placeholder="?"> <span class="font-bold">:</span>
+              <input type="number" class="input-angka" id="s2" placeholder="?">
+              <button onclick="cekSederhana()" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-4 py-2 text-base font-nunito"><i class="fa-solid fa-check"></i> Periksa</button>
+            </div>
+            <div id="fb-sederhana" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button onclick="tampilkanLayar('peta')" class="btn-main bg-slate-400 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-map"></i> Ke Peta</button>
+        <button onclick="gantiTabPos2(2)" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-5 py-2">Lab 2 <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- Sub-Lab 2 -->
+    <div id="p2-lab2" class="langkah-aktif">
+      <div class="bg-sky-50 rounded-2xl p-4 border-2 border-sky-100 mb-4">
+        <h3 class="font-bold text-sky-700 text-lg mb-1"><i class="fa-solid fa-ruler-combined"></i> Rasio Satuan (Nilai untuk Setiap 1 Satuan)</h3>
+        <p class="text-sm font-semibold text-slate-700">Rasio satuan adalah rasio yang bilangan keduanya <b>1</b>. Contoh: 15 bibit : 3 m² = <b>5 bibit : 1 m²</b>, artinya "5 bibit tiap 1 m²". Rasio satuan memudahkan kita <b>membandingkan</b> mana yang lebih rapat, lebih murah, atau lebih cepat.</p>
+      </div>
+      <p class="font-bold text-slate-700 mb-2"><span class="chip bg-sky-100 text-sky-700">Simulasi Efisiensi Lahan</span> Lahan mana yang bibitnya lebih rapat?</p>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-white rounded-2xl p-4 shadow border-2 border-emerald-200">
+          <p class="font-extrabold text-emerald-700 text-lg">Lahan A</p>
+          <p class="text-sm font-semibold text-slate-600">Luas <b>3 m²</b>, berisi <b>15 bibit</b></p>
+          <div class="grid grid-cols-3 gap-1 my-2 bg-emerald-50 p-2 rounded-xl">
+            <div class="bg-emerald-100 rounded-lg text-center text-sm py-1">🌱🌱🌱🌱🌱</div>
+            <div class="bg-emerald-100 rounded-lg text-center text-sm py-1">🌱🌱🌱🌱🌱</div>
+            <div class="bg-emerald-100 rounded-lg text-center text-sm py-1">🌱🌱🌱🌱🌱</div>
+          </div>
+          <div class="flex items-center gap-2 font-bold text-sm flex-wrap">15 bibit ÷ 3 m² = <input type="number" class="input-angka" id="uA" placeholder="?"> bibit tiap 1 m²</div>
+        </div>
+        <div class="bg-white rounded-2xl p-4 shadow border-2 border-orange-200">
+          <p class="font-extrabold text-orange-700 text-lg">Lahan B</p>
+          <p class="text-sm font-semibold text-slate-600">Luas <b>4 m²</b>, berisi <b>16 bibit</b></p>
+          <div class="grid grid-cols-4 gap-1 my-2 bg-orange-50 p-2 rounded-xl">
+            <div class="bg-orange-100 rounded-lg text-center text-xs py-1.5">🌱🌱🌱🌱</div>
+            <div class="bg-orange-100 rounded-lg text-center text-xs py-1.5">🌱🌱🌱🌱</div>
+            <div class="bg-orange-100 rounded-lg text-center text-xs py-1.5">🌱🌱🌱🌱</div>
+            <div class="bg-orange-100 rounded-lg text-center text-xs py-1.5">🌱🌱🌱🌱</div>
+          </div>
+          <div class="flex items-center gap-2 font-bold text-sm flex-wrap">16 bibit ÷ 4 m² = <input type="number" class="input-angka" id="uB" placeholder="?"> bibit tiap 1 m²</div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow border-2 border-slate-100 mt-4">
+        <p class="font-bold text-slate-700 mb-2">Lahan mana yang penanamannya <b>lebih rapat</b> (lebih banyak bibit tiap 1 m²)?</p>
+        <div class="flex gap-3 flex-wrap">
+          <label class="opsi rounded-xl px-4 py-2 font-extrabold flex items-center gap-2"><input type="radio" name="rapat" value="A" class="w-4 h-4"> Lahan A</label>
+          <label class="opsi rounded-xl px-4 py-2 font-extrabold flex items-center gap-2"><input type="radio" name="rapat" value="B" class="w-4 h-4"> Lahan B</label>
+          <label class="opsi rounded-xl px-4 py-2 font-extrabold flex items-center gap-2"><input type="radio" name="rapat" value="S" class="w-4 h-4"> Sama rapat</label>
+          <button onclick="cekUnit()" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-4 py-2"><i class="fa-solid fa-check"></i> Periksa</button>
+        </div>
+        <div id="fb-unit" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button onclick="gantiTabPos2(1)" class="btn-main bg-slate-400 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-arrow-left"></i> Lab 1</button>
+        <button onclick="gantiTabPos2(3)" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-5 py-2">Lab 3 <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- Sub-Lab 3 -->
+    <div id="p2-lab3" class="langkah-aktif">
+      <div class="bg-purple-50 rounded-2xl p-4 border-2 border-purple-100 mb-4">
+        <h3 class="font-bold text-purple-700 text-lg mb-1"><i class="fa-solid fa-chart-simple"></i> Rasio Bagian terhadap Bagian vs Bagian terhadap Keseluruhan</h3>
+        <p class="text-sm font-semibold text-slate-700">Rasio bisa membandingkan <b>bagian dengan bagian lain</b> (biru : kuning) atau <b>bagian dengan keseluruhan</b> (biru : total). Ubah jumlah kotak dan perhatikan rasionya berubah secara langsung!</p>
+      </div>
+      <div class="grid lg:grid-cols-5 gap-4">
+        <div class="lg:col-span-3 bg-white rounded-2xl p-4 shadow border-2 border-slate-100">
+          <p class="font-bold text-slate-700 mb-2">Simulator Diagram Kotak (Bar Model)</p>
+          <div class="flex flex-wrap gap-4 mb-3">
+            <div class="flex items-center gap-2 bg-blue-50 rounded-xl p-2">
+              <span class="font-extrabold text-blue-700">Bagian A (Biru)</span>
+              <button onclick="ubahBar('a',-1)" class="w-9 h-9 rounded-lg bg-blue-500 text-white font-extrabold text-lg hover:bg-blue-600">−</button>
+              <span id="nilai-a" class="font-judul text-2xl font-bold w-8 text-center text-blue-700">3</span>
+              <button onclick="ubahBar('a',1)" class="w-9 h-9 rounded-lg bg-blue-500 text-white font-extrabold text-lg hover:bg-blue-600">+</button>
+            </div>
+            <div class="flex items-center gap-2 bg-yellow-50 rounded-xl p-2">
+              <span class="font-extrabold text-yellow-700">Bagian B (Kuning)</span>
+              <button onclick="ubahBar('b',-1)" class="w-9 h-9 rounded-lg bg-yellow-400 text-white font-extrabold text-lg hover:bg-yellow-500">−</button>
+              <span id="nilai-b" class="font-judul text-2xl font-bold w-8 text-center text-yellow-700">5</span>
+              <button onclick="ubahBar('b',1)" class="w-9 h-9 rounded-lg bg-yellow-400 text-white font-extrabold text-lg hover:bg-yellow-500">+</button>
+            </div>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3">
+            <p class="text-xs font-extrabold text-slate-500 mb-1">Diagram kotak keseluruhan (Total = <span id="nilai-total">8</span>)</p>
+            <div id="bar-total" class="flex flex-wrap"></div>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-2 mt-3 text-center">
+            <div class="bg-gradient-to-br from-blue-500 to-yellow-400 text-white rounded-xl p-3">
+              <p class="text-xs font-bold opacity-90">Bagian : Bagian</p>
+              <p class="text-xs font-semibold">Biru : Kuning</p>
+              <p class="font-judul text-2xl font-bold" id="r-ab">3 : 5</p>
+              <p class="text-xs font-semibold" id="r-ab-s"></p>
+            </div>
+            <div class="bg-blue-500 text-white rounded-xl p-3">
+              <p class="text-xs font-bold opacity-90">Bagian : Keseluruhan</p>
+              <p class="text-xs font-semibold">Biru : Total</p>
+              <p class="font-judul text-2xl font-bold" id="r-at">3 : 8</p>
+              <p class="text-xs font-semibold" id="r-at-s"></p>
+            </div>
+            <div class="bg-yellow-400 text-white rounded-xl p-3">
+              <p class="text-xs font-bold opacity-90">Bagian : Keseluruhan</p>
+              <p class="text-xs font-semibold">Kuning : Total</p>
+              <p class="font-judul text-2xl font-bold" id="r-bt">5 : 8</p>
+              <p class="text-xs font-semibold" id="r-bt-s"></p>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-2 bg-white rounded-2xl p-4 shadow border-2 border-purple-200">
+          <p class="font-bold text-purple-700 mb-1"><i class="fa-solid fa-pen"></i> Latihan Soal Cerita</p>
+          <p class="text-sm font-semibold text-slate-700">Di kebun sekolah, rasio bibit <b class="text-red-600">cabai</b> terhadap bibit <b class="text-orange-600">tomat</b> adalah <b>3 : 5</b>. Jika seluruhnya ada <b>24 bibit</b>, berapa banyak bibit <b>tomat</b>?</p>
+          <div class="bg-purple-50 rounded-xl p-2 my-2">
+            <div class="flex"><span class="kotak-bar bg-red-400"></span><span class="kotak-bar bg-red-400"></span><span class="kotak-bar bg-red-400"></span><span class="kotak-bar bg-orange-400"></span><span class="kotak-bar bg-orange-400"></span><span class="kotak-bar bg-orange-400"></span><span class="kotak-bar bg-orange-400"></span><span class="kotak-bar bg-orange-400"></span></div>
+            <p class="text-xs font-bold text-slate-500 mt-1">8 kotak = 24 bibit → 1 kotak mewakili ... bibit</p>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap font-bold">
+            Bibit tomat = <input type="number" class="input-angka" id="jwb-bar" placeholder="?"> bibit
+            <button onclick="cekBarSoal()" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-4 py-2"><i class="fa-solid fa-check"></i> Periksa</button>
+          </div>
+          <div id="fb-bar" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+        </div>
+      </div>
+      <div id="pos2-selesai" class="hidden mt-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl p-4 text-center pop">
+        <div class="text-4xl mb-1">🎉⭐</div>
+        <p class="font-judul text-xl font-bold">Pos 2 Selesai! Kamu menguasai kesamaan rasio.</p>
+        <button onclick="bukaPos(3)" class="btn-main bg-white text-green-700 font-extrabold rounded-xl px-5 py-2 mt-3">Lanjut ke Pos 3 <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="mt-3 text-xs font-bold text-slate-500" id="checklist-pos2"></div>
+      <div class="flex justify-between mt-4">
+        <button onclick="gantiTabPos2(2)" class="btn-main bg-slate-400 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-arrow-left"></i> Lab 2</button>
+        <button onclick="tampilkanLayar('peta')" class="btn-main bg-sky-500 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-map"></i> Ke Peta</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POS 3: RASIO WAKTU ================= -->
+<section id="layar-pos3" class="screen">
+  <div class="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border-t-8 border-amber-400">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+      <div>
+        <p class="text-xs font-extrabold text-amber-500 uppercase">Pos 3 · Subbab C</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">⏰ Penerapan Rasio pada Durasi Waktu</h2>
+      </div>
+      <div class="flex gap-2 bg-slate-100 p-1 rounded-2xl">
+        <button class="tab-btn active rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiKasus(0)" id="tabp3-0">Kasus 1</button>
+        <button class="tab-btn rounded-xl px-3 py-2 font-extrabold text-sm" onclick="gantiKasus(1)" id="tabp3-1">Kasus 2</button>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-4">
+      <div class="lg:col-span-2 bg-amber-50 rounded-2xl p-4 border-2 border-amber-100">
+        <h3 class="font-bold text-amber-700 text-lg mb-2"><i class="fa-solid fa-key"></i> Konsep Utama</h3>
+        <p class="text-sm font-semibold text-slate-700 mb-3">Rasio dua durasi waktu hanya bisa dibandingkan dan disederhanakan jika <b>satuannya sudah sama</b>. Ubah satuan yang <b>lebih besar</b> ke satuan yang <b>lebih kecil</b> terlebih dahulu.</p>
+        <div class="grid grid-cols-2 gap-2 text-center text-sm font-extrabold">
+          <div class="bg-white rounded-xl p-2 shadow-sm">⏱️ 1 menit<br><span class="text-amber-600">= 60 detik</span></div>
+          <div class="bg-white rounded-xl p-2 shadow-sm">🕐 1 jam<br><span class="text-amber-600">= 60 menit</span></div>
+          <div class="bg-white rounded-xl p-2 shadow-sm">📅 1 minggu<br><span class="text-amber-600">= 7 hari</span></div>
+          <div class="bg-white rounded-xl p-2 shadow-sm">🗓️ 1 tahun<br><span class="text-amber-600">= 12 bulan</span></div>
+        </div>
+        <div class="mt-3 bg-white rounded-xl p-3 text-sm font-semibold text-slate-600">
+          <p class="font-bold text-slate-700">Contoh:</p>
+          <p>Rasio 2 jam : 30 menit → 120 menit : 30 menit → <b>4 : 1</b></p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-3">
+        <div class="bg-white rounded-2xl p-4 shadow border-2 border-slate-100 mb-3">
+          <p class="chip bg-amber-100 text-amber-700 mb-2"><i class="fa-solid fa-flask"></i> Lab "Gembok Konversi Waktu"</p>
+          <p class="font-bold text-slate-800 text-base sm:text-lg" id="k-judul"></p>
+          <p class="text-sm font-semibold text-slate-600" id="k-cerita"></p>
+        </div>
+
+        <!-- Langkah 1 -->
+        <div class="bg-white rounded-2xl p-4 shadow border-2 border-amber-200 mb-3 gembok terbuka" id="gembok1">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-2xl" id="ikon-gembok1">🔒</span>
+            <p class="font-bold text-slate-700">Langkah 1: Buka Gembok Satuan — samakan satuannya</p>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap font-bold text-slate-700">
+            <span id="k-konv-label"></span>
+            <input type="number" step="any" class="input-angka" id="k-konv" placeholder="?" style="width:5rem">
+            <span id="k-konv-satuan"></span>
+            <button onclick="cekKonversi()" class="btn-main bg-amber-500 text-white font-extrabold rounded-xl px-4 py-2"><i class="fa-solid fa-unlock"></i> Buka Gembok</button>
+          </div>
+          <div id="fb-konv" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+        </div>
+
+        <!-- Langkah 2 -->
+        <div class="bg-white rounded-2xl p-4 shadow border-2 border-green-200 gembok terkunci" id="gembok2">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-2xl" id="ikon-gembok2">🔒</span>
+            <p class="font-bold text-slate-700">Langkah 2: Sederhanakan Rasio</p>
+          </div>
+          <p class="text-sm font-semibold text-slate-600 mb-2" id="k-rasio-sama"></p>
+          <div class="flex items-center gap-2 flex-wrap font-judul text-xl">
+            <span class="font-bold text-slate-700" id="k-rasio-awal"></span>
+            <span class="panah-op" style="background:#0ea5e9" id="k-fpb">÷ ?</span>
+            <input type="number" class="input-angka" id="k-s1" placeholder="?"> <span class="font-bold">:</span>
+            <input type="number" class="input-angka" id="k-s2" placeholder="?">
+            <button onclick="cekSederhanaWaktu()" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-4 py-2 text-base font-nunito"><i class="fa-solid fa-check"></i> Periksa</button>
+          </div>
+          <div id="fb-kwaktu" class="umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pos3-selesai" class="hidden mt-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl p-4 text-center pop">
+      <div class="text-4xl mb-1">🎉⭐</div>
+      <p class="font-judul text-xl font-bold">Pos 3 Selesai! Kamu bisa membandingkan durasi waktu dengan rasio.</p>
+      <button onclick="bukaPos(4)" class="btn-main bg-white text-green-700 font-extrabold rounded-xl px-5 py-2 mt-3">Lanjut ke Uji Kemampuan <i class="fa-solid fa-trophy"></i></button>
+    </div>
+    <div class="flex justify-between mt-4">
+      <button onclick="tampilkanLayar('peta')" class="btn-main bg-slate-400 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-map"></i> Ke Peta</button>
+      <button onclick="kasusBerikut()" id="btn-kasus-berikut" class="btn-main bg-amber-500 text-white font-extrabold rounded-xl px-5 py-2">Kasus Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POS 4: EVALUASI ================= -->
+<section id="layar-pos4" class="screen">
+  <div class="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border-t-8 border-purple-400">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+      <div>
+        <p class="text-xs font-extrabold text-purple-500 uppercase">Pos 4 · Evaluasi Akhir</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">🏆 Uji Kemampuan</h2>
+      </div>
+      <div class="text-right">
+        <p class="text-xs font-extrabold text-slate-500">Terjawab: <span id="q-terjawab">0</span>/10</p>
+        <div class="w-40 h-3 bg-slate-200 rounded-full overflow-hidden mt-1"><div id="q-bar" class="progress-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-4 justify-center" id="nav-soal"></div>
+
+    <div class="grid lg:grid-cols-5 gap-4">
+      <div class="lg:col-span-3">
+        <div class="bg-purple-50 rounded-2xl p-4 border-2 border-purple-100 min-h-[120px]">
+          <p class="chip bg-purple-200 text-purple-800 mb-2" id="q-label"></p>
+          <p class="font-bold text-slate-800 text-base sm:text-lg leading-snug" id="q-teks"></p>
+          <div id="q-visual" class="mt-2"></div>
+        </div>
+        <div id="q-opsi" class="grid gap-2 mt-3"></div>
+        <div class="flex flex-wrap justify-between gap-2 mt-4">
+          <button onclick="pindahSoal(-1)" id="btn-prev" class="btn-main bg-slate-400 text-white font-extrabold rounded-xl px-4 py-2"><i class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+          <button onclick="periksaJawaban()" id="btn-periksa" class="btn-main bg-green-500 text-white font-extrabold rounded-xl px-5 py-2"><i class="fa-solid fa-check"></i> Periksa Jawaban</button>
+          <button onclick="pindahSoal(1)" id="btn-next" class="btn-main bg-purple-500 text-white font-extrabold rounded-xl px-4 py-2">Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <div id="q-pembahasan" class="rounded-2xl p-4 border-2 border-dashed border-slate-200 bg-slate-50 min-h-[200px] h-full">
+          <div class="text-center text-slate-400 font-semibold mt-6"><div class="text-4xl mb-2">📝</div>Pilih jawaban, lalu klik <b>Periksa Jawaban</b> untuk melihat pembahasan langkah demi langkah.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <button onclick="selesaiEvaluasi()" id="btn-selesai" class="btn-main hidden bg-gradient-to-r from-amber-400 to-orange-500 text-white font-judul text-xl font-semibold rounded-2xl px-8 py-3"><i class="fa-solid fa-flag-checkered"></i> Lihat Hasil Akhir</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HASIL AKHIR ================= -->
+<section id="layar-hasil" class="screen">
+  <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl p-6 sm:p-10 text-center border-4 border-amber-200 pop">
+    <div class="text-6xl mb-2" id="h-ikon">🏆</div>
+    <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">Hasil Akhir Ekspedisi</h2>
+    <p class="text-slate-500 font-semibold text-sm mb-4">Uji Kemampuan Bab 2: Rasio</p>
+    <div class="inline-block rounded-full border-8 border-amber-300 w-40 h-40 flex items-center justify-center mb-3 bg-amber-50">
+      <div><p class="font-judul text-5xl font-bold text-amber-600" id="h-skor">0</p><p class="text-xs font-extrabold text-slate-500">dari 100</p></div>
+    </div>
+    <p class="font-judul text-2xl font-semibold text-sky-700" id="h-predikat"></p>
+    <p class="text-slate-600 font-semibold mb-2" id="h-pesan"></p>
+    <p id="h-status" class="chip text-base mx-auto mb-3"></p>
+    <div class="grid grid-cols-5 gap-1 max-w-sm mx-auto mb-4" id="h-rincian"></div>
+    <div class="flex flex-wrap gap-3 justify-center">
+      <button onclick="mulaiEvaluasi(true)" class="btn-main bg-purple-500 text-white font-extrabold rounded-xl px-5 py-3"><i class="fa-solid fa-rotate-right"></i> Ulangi Evaluasi</button>
+      <button onclick="tampilkanLayar('peta')" class="btn-main bg-sky-500 text-white font-extrabold rounded-xl px-5 py-3"><i class="fa-solid fa-map"></i> Kembali ke Peta</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= MODAL ================= -->
+<div id="modal" class="modal-bg fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 items-center justify-center p-4" onclick="if(event.target===this) tutupModal()">
+  <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col pop">
+    <div class="flex items-center justify-between p-4 border-b-2 border-slate-100" id="modal-header">
+      <h3 class="text-xl font-bold text-slate-800" id="modal-judul">Judul</h3>
+      <button onclick="tutupModal()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-red-100 hover:text-red-600 transition font-bold"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="p-5 overflow-y-auto scroll-tipis text-sm font-semibold text-slate-700" id="modal-isi"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast bg-slate-800 text-white font-extrabold rounded-2xl px-5 py-3 shadow-2xl flex items-center gap-2"><span id="toast-ikon">⭐</span><span id="toast-teks"></span></div>
+
+<script>
+/* =====================================================================
+   PETUALANGAN RASIO: EKSPEDISI NUSANTARA
+   Media Pembelajaran Interaktif Matematika Kelas 6 SD - Bab 2: Rasio
+   ===================================================================== */
+
+/* ---------- PROFIL PENGEMBANG (silakan diedit) ---------- */
+const PROFIL = {
+  nama: "Nama Guru, S.Pd.",
+  nip: "NIP. 0000 0000 0000 0000",
+  sekolah: "SD Negeri Contoh Nusantara",
+  kelas: "Kelas VI (Fase C)",
+  mapel: "Matematika - Bab 2: Rasio",
+  tahun: "2026",
+  email: "email@sekolah.sch.id",
+  sumber: "Buku Teks Utama Matematika untuk SD/MI Kelas VI, Kurikulum Merdeka (SIBI, Kemendikdasmen)"
+};
+
+/* ---------- UTILITAS ---------- */
+const $ = (id) => document.getElementById(id);
+const fpb = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+const angka = (id) => {
+  const v = String($(id).value).trim().replace(',', '.');
+  if (v === '') return null;
+  const n = Number(v);
+  return isNaN(n) ? null : n;
+};
+const samaNilai = (a, b) => a !== null && Math.abs(a - b) < 1e-9;
+function setFeedback(id, tipe, html) {
+  const el = $(id);
+  const gaya = {
+    benar: 'bg-green-50 border-2 border-green-300 text-green-800',
+    salah: 'bg-red-50 border-2 border-red-300 text-red-800',
+    info: 'bg-amber-50 border-2 border-amber-300 text-amber-800'
+  };
+  const ikon = { benar: '✅', salah: '❌', info: '💡' };
+  el.className = 'umpan-balik show mt-3 rounded-xl p-3 text-sm font-semibold ' + gaya[tipe];
+  el.innerHTML = '<span class="text-lg mr-1">' + ikon[tipe] + '</span>' + html;
+  if (tipe === 'salah') { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+}
+function tandai(id, benar) {
+  const el = $(id);
+  el.classList.remove('benar', 'salah');
+  el.classList.add(benar ? 'benar' : 'salah');
+}
+function kunciInput(ids) { ids.forEach(id => { $(id).disabled = true; $(id).classList.add('benar'); }); }
+function kosong(ids) { return ids.some(id => angka(id) === null); }
+let toastTimer = null;
+function toast(teks, ikon) {
+  $('toast-teks').textContent = teks;
+  $('toast-ikon').textContent = ikon || '⭐';
+  $('toast').classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $('toast').classList.remove('show'), 2800);
+}
+
+/* ---------- PROGRES ---------- */
+const KUNCI_SIMPAN = 'mpi_rasio_kelas6_progres_v1';
+let progres = {
+  pos1: false, pos2: false, pos3: false, pos4: false,
+  lab1: { t1: false, t2: false },
+  lab2: { tabel: false, sederhana: false, unit: false, bar: false },
+  lab3: [false, false],
+  skorTerbaik: null
+};
+function muatProgres() {
+  try {
+    const s = localStorage.getItem(KUNCI_SIMPAN);
+    if (s) {
+      const p = JSON.parse(s);
+      progres = Object.assign(progres, p);
+      progres.lab1 = Object.assign({ t1: false, t2: false }, p.lab1 || {});
+      progres.lab2 = Object.assign({ tabel: false, sederhana: false, unit: false, bar: false }, p.lab2 || {});
+      progres.lab3 = Array.isArray(p.lab3) ? p.lab3 : [false, false];
+    }
+  } catch (e) { /* penyimpanan tidak tersedia: tetap jalan tanpa menyimpan */ }
+}
+function simpanProgres() { try { localStorage.setItem(KUNCI_SIMPAN, JSON.stringify(progres)); } catch (e) { } }
+function perbaruiPeta() {
+  let selesai = 0;
+  [1, 2, 3, 4].forEach(n => {
+    const el = $('status-pos' + n);
+    if (progres['pos' + n]) {
+      selesai++;
+      el.className = 'absolute top-3 right-3 chip bg-amber-100 text-amber-700';
+      el.innerHTML = 'Selesai <span class="bintang">⭐</span>';
+    } else {
+      el.className = 'absolute top-3 right-3 chip bg-slate-100 text-slate-500';
+      el.textContent = 'Belum Selesai';
+    }
+  });
+  $('teks-progres').textContent = selesai + ' / 4 Pos';
+  $('bar-progres').style.width = (selesai * 25) + '%';
+  $('bintang-header').innerHTML = '<span class="bintang">⭐</span> ' + selesai + '/4';
+  if (progres.skorTerbaik !== null) {
+    $('skor-terbaik').classList.remove('hidden');
+    $('skor-terbaik').innerHTML = '<i class="fa-solid fa-medal"></i> Skor terbaik: ' + progres.skorTerbaik;
+  }
+}
+function tandaiPosSelesai(n) {
+  if (!progres['pos' + n]) {
+    progres['pos' + n] = true;
+    simpanProgres();
+    toast('Hebat! Pos ' + n + ' selesai. Kamu dapat 1 bintang!', '⭐');
+  }
+  perbaruiPeta();
+}
+function resetProgres() {
+  if (!confirm('Atur ulang semua progres belajar? Bintang dan skor akan dihapus.')) return;
+  try { localStorage.removeItem(KUNCI_SIMPAN); } catch (e) { }
+  location.reload();
+}
+
+/* ---------- NAVIGASI LAYAR ---------- */
+const JUDUL_LAYAR = {
+  beranda: 'Petualangan Rasio', peta: 'Peta Petualangan', pos1: 'Pos 1 · Konsep Rasio',
+  pos2: 'Pos 2 · Kesamaan Rasio', pos3: 'Pos 3 · Rasio Waktu', pos4: 'Pos 4 · Uji Kemampuan', hasil: 'Hasil Akhir'
+};
+function tampilkanLayar(nama) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $('layar-' + nama).classList.add('active');
+  $('header-app').classList.toggle('hidden', nama === 'beranda');
+  $('judul-header').textContent = JUDUL_LAYAR[nama] || 'Petualangan Rasio';
+  if (nama === 'peta') perbaruiPeta();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function mulaiBelajar() { tampilkanLayar('peta'); }
+function bukaPos(n) {
+  if (n === 1) { gantiTabPos1(1); tampilkanLayar('pos1'); }
+  if (n === 2) { gantiTabPos2(1); perbaruiChecklistPos2(); tampilkanLayar('pos2'); }
+  if (n === 3) { gantiKasus(progres.lab3[0] && !progres.lab3[1] ? 1 : 0); tampilkanLayar('pos3'); }
+  if (n === 4) { mulaiEvaluasi(true); tampilkanLayar('pos4'); }
+}
+
+/* ---------- MODAL ---------- */
+const ISI_MODAL = {
+  petunjuk: {
+    judul: '📘 Petunjuk Penggunaan',
+    isi: `
+      <div class="space-y-3">
+        <div class="bg-sky-50 rounded-xl p-3"><p class="font-bold text-sky-700 mb-1"><i class="fa-solid fa-compass"></i> Cara Navigasi</p>
+          <ul class="list-disc ml-5 space-y-1">
+            <li>Klik <b>Mulai Belajar</b> untuk membuka <b>Peta Petualangan</b>.</li>
+            <li>Pilih kartu <b>Pos 1 → Pos 4</b> secara berurutan agar materi runtut.</li>
+            <li>Tombol <b>Peta Belajar</b> di pojok kiri atas selalu mengembalikanmu ke menu utama.</li>
+            <li>Pos yang sudah selesai akan ditandai <b>Selesai ⭐</b>. Progres tersimpan otomatis di perangkat ini.</li>
+          </ul></div>
+        <div class="bg-green-50 rounded-xl p-3"><p class="font-bold text-green-700 mb-1"><i class="fa-solid fa-flask"></i> Cara Menggunakan Laboratorium Interaktif</p>
+          <ul class="list-disc ml-5 space-y-1">
+            <li>Baca penjelasan konsep di setiap tab/langkah, lalu kerjakan tantangannya.</li>
+            <li>Ketik angka pada kotak <b>[ ? ]</b>, lalu klik <b>Periksa</b>. Kotak hijau = benar, merah = perlu diperbaiki.</li>
+            <li>Baca <b>pesan umpan balik</b> dengan teliti: pesan itu menjelaskan <i>mengapa</i> jawabanmu belum tepat dan cara memperbaikinya.</li>
+            <li>Pada Simulator Bar Model, gunakan tombol <b>+</b> dan <b>−</b> untuk mengubah jumlah kotak.</li>
+            <li>Pada Lab Gembok Konversi Waktu, <b>Langkah 2 baru terbuka</b> setelah satuan waktu disamakan dengan benar.</li>
+          </ul></div>
+        <div class="bg-purple-50 rounded-xl p-3"><p class="font-bold text-purple-700 mb-1"><i class="fa-solid fa-trophy"></i> Aturan Kuis (Uji Kemampuan)</p>
+          <ul class="list-disc ml-5 space-y-1">
+            <li>Terdapat <b>10 soal pilihan ganda</b> (A, B, C, D). Setiap soal bernilai 10 poin.</li>
+            <li>Pilih satu jawaban lalu klik <b>Periksa Jawaban</b>. Jawaban yang sudah diperiksa <b>tidak dapat diubah</b>.</li>
+            <li>Setelah diperiksa, muncul <b>Pembahasan Langkah demi Langkah</b>. Pelajarilah meskipun jawabanmu benar.</li>
+            <li>Gunakan kotak nomor soal untuk berpindah. Setelah 10 soal terjawab, klik <b>Lihat Hasil Akhir</b>.</li>
+            <li>Misi dinyatakan <b>Lulus</b> jika skor ≥ 70. Kamu boleh mengulang evaluasi kapan saja.</li>
+          </ul></div>
+      </div>`
+  },
+  cptp: {
+    judul: '🎯 Capaian & Tujuan Pembelajaran',
+    isi: `
+      <div class="space-y-3">
+        <div class="bg-amber-50 rounded-xl p-3">
+          <p class="font-bold text-amber-700 mb-1">Capaian Pembelajaran (CP) Fase C – Elemen Bilangan</p>
+          <p>Pada akhir Fase C, peserta didik dapat menyelesaikan masalah yang berkaitan dengan <b>rasio</b> dan <b>perbandingan</b> dua besaran, serta menggunakan bahasa rasio untuk menjelaskan hubungan antarbesaran dalam kehidupan sehari-hari.</p>
+        </div>
+        <div class="bg-sky-50 rounded-xl p-3">
+          <p class="font-bold text-sky-700 mb-1">Tujuan Pembelajaran (TP)</p>
+          <ol class="list-decimal ml-5 space-y-2">
+            <li><b>Subbab A – Konsep Rasio:</b> Peserta didik mampu memahami konsep rasio dan menggunakan bahasa rasio (a : b, "a banding b", "a terhadap b") untuk menjelaskan hubungan perbandingan antara dua besaran, serta membedakannya dari selisih.</li>
+            <li><b>Subbab B – Kesamaan Rasio:</b> Peserta didik mampu menentukan kesamaan rasio menggunakan tabel rasio, menentukan rasio paling sederhana dengan FPB, menentukan rasio satuan, serta membedakan rasio bagian terhadap bagian dan rasio bagian terhadap keseluruhan.</li>
+            <li><b>Subbab C – Penerapan Rasio:</b> Peserta didik mampu menyelesaikan masalah penerapan rasio yang berkaitan dengan durasi waktu, dengan terlebih dahulu menyamakan satuan waktu.</li>
+          </ol>
+        </div>
+        <div class="bg-green-50 rounded-xl p-3">
+          <p class="font-bold text-green-700 mb-1">Profil Pelajar Pancasila yang Dikembangkan</p>
+          <p>Bernalar kritis (menganalisis perbandingan), mandiri (belajar melalui laboratorium interaktif), dan kreatif (menerapkan rasio dalam konteks kebun sekolah, resep, dan jadwal kegiatan).</p>
+        </div>
+      </div>`
+  },
+  profil: {
+    judul: '👩‍🏫 Profil Pengembang',
+    isi: ''
+  }
+};
+function isiProfil() {
+  return `
+    <div class="text-center">
+      <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-sky-400 to-purple-500 flex items-center justify-center text-5xl text-white shadow-lg mb-3">👩‍🏫</div>
+      <p class="font-judul text-2xl font-bold text-slate-800">${PROFIL.nama}</p>
+      <p class="text-slate-500">${PROFIL.nip}</p>
+      <div class="grid sm:grid-cols-2 gap-2 mt-4 text-left">
+        <div class="bg-sky-50 rounded-xl p-3"><p class="text-xs text-sky-600 font-extrabold uppercase">Sekolah</p><p>${PROFIL.sekolah}</p></div>
+        <div class="bg-green-50 rounded-xl p-3"><p class="text-xs text-green-600 font-extrabold uppercase">Kelas / Fase</p><p>${PROFIL.kelas}</p></div>
+        <div class="bg-amber-50 rounded-xl p-3"><p class="text-xs text-amber-600 font-extrabold uppercase">Mata Pelajaran</p><p>${PROFIL.mapel}</p></div>
+        <div class="bg-purple-50 rounded-xl p-3"><p class="text-xs text-purple-600 font-extrabold uppercase">Tahun Pembuatan</p><p>${PROFIL.tahun}</p></div>
+        <div class="bg-pink-50 rounded-xl p-3 sm:col-span-2"><p class="text-xs text-pink-600 font-extrabold uppercase">Kontak</p><p>${PROFIL.email}</p></div>
+        <div class="bg-slate-50 rounded-xl p-3 sm:col-span-2"><p class="text-xs text-slate-600 font-extrabold uppercase">Sumber Materi</p><p>${PROFIL.sumber}</p></div>
+      </div>
+      <p class="text-xs text-slate-400 mt-3">Untuk mengubah profil, edit bagian <code>const PROFIL</code> di awal kode JavaScript file ini.</p>
+    </div>`;
+}
+function bukaModal(jenis) {
+  const d = ISI_MODAL[jenis];
+  $('modal-judul').textContent = d.judul;
+  $('modal-isi').innerHTML = jenis === 'profil' ? isiProfil() : d.isi;
+  $('modal').classList.add('show');
+}
+function tutupModal() { $('modal').classList.remove('show'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') tutupModal(); });
+
+/* =====================================================================
+   POS 1: KONSEP RASIO
+   ===================================================================== */
+function gantiTabPos1(n) {
+  [1, 2, 3].forEach(i => {
+    $('p1-langkah' + i).classList.toggle('show', i === n);
+    $('tabp1-' + i).classList.toggle('active', i === n);
+  });
+}
+function pilihCaraBanding(cara) {
+  const box = $('hasil-banding');
+  if (cara === 'selisih') {
+    box.innerHTML = `
+      <div class="pop">
+        <p class="chip bg-amber-100 text-amber-700 mb-2">Membandingkan dengan SELISIH</p>
+        <div class="text-center font-judul text-3xl font-bold text-amber-600 my-2">3 − 2 = 1</div>
+        <div class="flex justify-center gap-1 text-3xl mb-2"><span>🥛</span><span>🥛</span><span>🥛</span><span class="opacity-30">🍫</span><span class="opacity-30">🍫</span></div>
+        <p class="text-sm font-semibold text-slate-700 text-center">"Susu <b>lebih banyak 1 gelas</b> daripada cokelat."</p>
+        <p class="text-xs font-semibold text-slate-500 text-center mt-1">Selisih menggunakan operasi <b>pengurangan</b>. Hanya memberi tahu <i>berapa bedanya</i>.</p>
+      </div>`;
+  } else {
+    box.innerHTML = `
+      <div class="pop">
+        <p class="chip bg-sky-100 text-sky-700 mb-2">Membandingkan dengan RASIO</p>
+        <div class="text-center font-judul text-3xl font-bold text-sky-600 my-2">3 : 2</div>
+        <div class="flex justify-center items-center gap-3 text-3xl mb-2"><span>🥛🥛🥛</span><span class="text-slate-400 text-2xl font-bold">:</span><span>🍫🍫</span></div>
+        <p class="text-sm font-semibold text-slate-700 text-center">"Rasio susu terhadap cokelat adalah <b>3 banding 2</b>."</p>
+        <p class="text-xs font-semibold text-slate-500 text-center mt-1">Artinya: setiap <b>3 gelas susu</b> dipadukan dengan <b>2 gelas cokelat</b>. Rasio menunjukkan <i>hubungan perbandingan</i>, bukan selisih.</p>
+      </div>`;
+  }
+}
+function cekLab1(nomor) {
+  const ida = nomor === 1 ? 'l1a' : 'l2a', idb = nomor === 1 ? 'l1b' : 'l2b';
+  const fbId = 'fb-l1-' + nomor;
+  if (kosong([ida, idb])) { setFeedback(fbId, 'info', 'Isi kedua kotak angka terlebih dahulu, ya!'); return; }
+  const a = angka(ida), b = angka(idb);
+  const benar = nomor === 1 ? [4, 6] : [6, 4];
+  const pertama = nomor === 1 ? 'mahoni' : 'jati';
+  const kedua = nomor === 1 ? 'jati' : 'mahoni';
+  if (samaNilai(a, benar[0]) && samaNilai(b, benar[1])) {
+    tandai(ida, true); tandai(idb, true); kunciInput([ida, idb]);
+    setFeedback(fbId, 'benar', `<b>Tepat sekali!</b> Rasio bibit ${pertama} terhadap bibit ${kedua} adalah <b>${benar[0]} : ${benar[1]}</b>. Kata "${pertama}" disebut lebih dulu, maka angka ${benar[0]} ditulis di depan.`);
+    progres.lab1['t' + nomor] = true; simpanProgres();
+    if (progres.lab1.t1 && progres.lab1.t2) { $('pos1-selesai').classList.remove('hidden'); tandaiPosSelesai(1); }
+    return;
+  }
+  tandai(ida, samaNilai(a, benar[0])); tandai(idb, samaNilai(b, benar[1]));
+  if (samaNilai(a, benar[1]) && samaNilai(b, benar[0])) {
+    setFeedback(fbId, 'salah', `<b>Urutannya terbalik!</b> Kamu menulis ${a} : ${b}. Soal menanyakan rasio <b>${pertama}</b> terhadap <b>${kedua}</b>, jadi jumlah ${pertama} (${benar[0]}) harus ditulis <b>di depan</b>, baru jumlah ${kedua} (${benar[1]}). Ingat: a : b ≠ b : a.`);
+  } else if ((samaNilai(a, 2) && samaNilai(b, 3) && nomor === 1) || (samaNilai(a, 3) && samaNilai(b, 2) && nomor === 2)) {
+    setFeedback(fbId, 'info', `Rasio ${a} : ${b} memang <b>senilai</b> dengan ${benar[0]} : ${benar[1]} (bentuk paling sederhananya). Namun, tantangan ini meminta rasio dari <b>jumlah bibit sebenarnya</b>. Hitung kembali: mahoni ada 4, jati ada 6.`);
+  } else if (samaNilai(a, 10) || samaNilai(b, 10)) {
+    setFeedback(fbId, 'salah', `Angka <b>10</b> adalah jumlah <b>seluruh</b> bibit (4 + 6). Di sini kita membandingkan <b>bagian dengan bagian</b>: ${pertama} (${benar[0]}) dengan ${kedua} (${benar[1]}), bukan dengan keseluruhan.`);
+  } else {
+    setFeedback(fbId, 'salah', `Belum tepat. Hitung kembali: bibit mahoni ada <b>4</b> 🌳 dan bibit jati ada <b>6</b> 🌲. Tulis jumlah <b>${pertama}</b> di depan karena disebut lebih dulu.`);
+  }
+}
+
+/* =====================================================================
+   POS 2: KESAMAAN RASIO
+   ===================================================================== */
+function gantiTabPos2(n) {
+  [1, 2, 3].forEach(i => {
+    $('p2-lab' + i).classList.toggle('show', i === n);
+    $('tabp2-' + i).classList.toggle('active', i === n);
+  });
+  if (n === 3) gambarBar();
+}
+function perbaruiChecklistPos2() {
+  const l = progres.lab2;
+  const item = (ok, teks) => `<span class="chip ${ok ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'} mr-1 mb-1">${ok ? '✓' : '○'} ${teks}</span>`;
+  $('checklist-pos2').innerHTML = 'Daftar tugas Pos 2: ' + item(l.tabel, 'Tabel rasio') + item(l.sederhana, 'FPB') + item(l.unit, 'Rasio satuan') + item(l.bar, 'Soal bar model');
+  if (l.tabel && l.sederhana && l.unit && l.bar) { $('pos2-selesai').classList.remove('hidden'); tandaiPosSelesai(2); }
+}
+/* --- Sub-Lab 1: tabel rasio --- */
+function cekTabel() {
+  const kunci = { t1: { jawab: 6, dasar: 3, kali: 2, nama: 'susu untuk 2 gelas' }, t2: { jawab: 15, dasar: 3, kali: 5, nama: 'susu untuk 5 gelas' }, t3: { jawab: 6, dasar: 2, kali: 3, nama: 'cokelat untuk 3 gelas' }, t4: { jawab: 10, dasar: 2, kali: 5, nama: 'cokelat untuk 5 gelas' } };
+  const ids = Object.keys(kunci);
+  if (kosong(ids)) { setFeedback('fb-tabel', 'info', 'Masih ada sel tabel yang kosong. Isi semua kotak <b>?</b> terlebih dahulu.'); return; }
+  const salah = [];
+  ids.forEach(id => {
+    const k = kunci[id], v = angka(id);
+    const ok = samaNilai(v, k.jawab);
+    tandai(id, ok);
+    if (!ok) {
+      let alasan;
+      if (samaNilai(v, k.dasar + k.kali)) alasan = `kamu <b>menjumlahkan</b> ${k.dasar} + ${k.kali} = ${v}. Tabel rasio menggunakan <b>perkalian</b>: ${k.dasar} × ${k.kali} = <b>${k.jawab}</b>`;
+      else if (samaNilai(v, k.jawab * 2) || samaNilai(v, k.jawab / 2)) alasan = `pengalinya keliru. Dari resep dasar ${k.dasar}, kalikan dengan <b>${k.kali}</b> (sesuai jumlah gelas): ${k.dasar} × ${k.kali} = <b>${k.jawab}</b>`;
+      else alasan = `seharusnya ${k.dasar} × ${k.kali} = <b>${k.jawab}</b>, karena kedua bilangan rasio harus dikalikan dengan angka yang <b>sama</b>`;
+      salah.push(`<li><b>${k.nama}</b>: ${alasan}.</li>`);
+    }
+  });
+  if (salah.length === 0) {
+    kunciInput(ids);
+    setFeedback('fb-tabel', 'benar', '<b>Tabel lengkap dan benar!</b> 3 : 2 = 6 : 4 = 9 : 6 = 15 : 10. Semua rasio ini <b>senilai</b> karena diperoleh dari 3 : 2 yang kedua bilangannya dikalikan angka yang sama.');
+    progres.lab2.tabel = true; simpanProgres(); perbaruiChecklistPos2();
+  } else {
+    setFeedback('fb-tabel', 'salah', `<b>${salah.length} sel belum tepat:</b><ul class="list-disc ml-5 mt-1">${salah.join('')}</ul>`);
+  }
+}
+/* --- Sub-Lab 1: sederhana dengan FPB --- */
+function cekSederhana() {
+  if (kosong(['fpb', 's1', 's2'])) { setFeedback('fb-sederhana', 'info', 'Isi FPB dan kedua bilangan rasio paling sederhananya dulu, ya!'); return; }
+  const f = angka('fpb'), a = angka('s1'), b = angka('s2');
+  const fOk = samaNilai(f, 12);
+  tandai('fpb', fOk);
+  if (!fOk) {
+    tandai('s1', false); tandai('s2', false);
+    if ([2, 3, 4, 6].some(x => samaNilai(f, x))) {
+      setFeedback('fb-sederhana', 'salah', `<b>${f}</b> memang faktor persekutuan dari 24 dan 36, tetapi <b>bukan yang terbesar</b>. Jika dibagi ${f}, hasilnya ${24 / f} : ${36 / f} masih bisa disederhanakan lagi. Faktor 24: 1, 2, 3, 4, 6, 8, <b>12</b>, 24. Faktor 36: 1, 2, 3, 4, 6, 9, <b>12</b>, 18, 36. FPB = <b>12</b>.`);
+    } else if (samaNilai(f, 72)) {
+      setFeedback('fb-sederhana', 'salah', '<b>72</b> adalah <b>KPK</b> (Kelipatan Persekutuan Terkecil), bukan FPB. Untuk menyederhanakan rasio kita membagi dengan <b>FPB</b>, yaitu faktor terbesar yang membagi habis 24 dan 36 → <b>12</b>.');
+    } else {
+      setFeedback('fb-sederhana', 'salah', `<b>${f}</b> bukan FPB dari 24 dan 36. Cari bilangan <b>terbesar</b> yang membagi habis keduanya: 24 ÷ ? dan 36 ÷ ? tanpa sisa. Jawabannya <b>12</b>.`);
+    }
+    return;
+  }
+  const benar = samaNilai(a, 2) && samaNilai(b, 3);
+  tandai('s1', samaNilai(a, 2)); tandai('s2', samaNilai(b, 3));
+  if (benar) {
+    kunciInput(['fpb', 's1', 's2']);
+    setFeedback('fb-sederhana', 'benar', '<b>Sempurna!</b> 24 : 36 → (24 ÷ 12) : (36 ÷ 12) = <b>2 : 3</b>. Artinya, setiap 2 bibit cabai sebanding dengan 3 bibit tomat. Rasio 2 : 3 tidak bisa disederhanakan lagi karena FPB(2, 3) = 1.');
+    progres.lab2.sederhana = true; simpanProgres(); perbaruiChecklistPos2();
+  } else if (samaNilai(a, 3) && samaNilai(b, 2)) {
+    setFeedback('fb-sederhana', 'salah', '<b>Urutannya terbalik!</b> Soal meminta rasio <b>cabai terhadap tomat</b>. Cabai (24) disebut lebih dulu, jadi hasil 24 ÷ 12 = <b>2</b> harus di depan: <b>2 : 3</b>, bukan 3 : 2.');
+  } else if (a !== null && b !== null && b !== 0 && Math.abs(a / b - 2 / 3) < 1e-9) {
+    setFeedback('fb-sederhana', 'salah', `${a} : ${b} memang senilai dengan 24 : 36, tetapi <b>belum paling sederhana</b>. Kamu sudah menemukan FPB = 12, maka bagi kedua bilangan dengan 12: 24 ÷ 12 = <b>2</b> dan 36 ÷ 12 = <b>3</b>.`);
+  } else {
+    setFeedback('fb-sederhana', 'salah', 'FPB-nya sudah benar (12). Sekarang <b>bagi kedua bilangan</b> dengan 12: 24 ÷ 12 = ? dan 36 ÷ 12 = ?');
+  }
+}
+/* --- Sub-Lab 2: rasio satuan --- */
+function cekUnit() {
+  if (kosong(['uA', 'uB'])) { setFeedback('fb-unit', 'info', 'Hitung dulu rasio satuan Lahan A dan Lahan B (bibit tiap 1 m²).'); return; }
+  const a = angka('uA'), b = angka('uB');
+  const pilih = document.querySelector('input[name="rapat"]:checked');
+  const aOk = samaNilai(a, 5), bOk = samaNilai(b, 4);
+  tandai('uA', aOk); tandai('uB', bOk);
+  const pesan = [];
+  if (!aOk) {
+    if (samaNilai(a, 45)) pesan.push('Lahan A: kamu <b>mengalikan</b> 15 × 3 = 45. Rasio satuan dicari dengan <b>membagi</b>: 15 bibit ÷ 3 m² = <b>5</b> bibit tiap 1 m².');
+    else if (samaNilai(a, 12) || samaNilai(a, 18)) pesan.push('Lahan A: kamu menggunakan pengurangan/penjumlahan. Rasio satuan = jumlah bibit <b>dibagi</b> luas: 15 ÷ 3 = <b>5</b>.');
+    else if (a !== null && Math.abs(a - 0.2) < 1e-9) pesan.push('Lahan A: 3 ÷ 15 = 0,2 berarti "0,2 m² tiap 1 bibit". Yang ditanya adalah <b>bibit tiap 1 m²</b>, jadi hitung 15 ÷ 3 = <b>5</b>.');
+    else pesan.push('Lahan A: 15 bibit ÷ 3 m² = <b>5</b> bibit tiap 1 m².');
+  }
+  if (!bOk) {
+    if (samaNilai(b, 64)) pesan.push('Lahan B: kamu <b>mengalikan</b> 16 × 4 = 64. Seharusnya <b>membagi</b>: 16 ÷ 4 = <b>4</b> bibit tiap 1 m².');
+    else if (samaNilai(b, 12) || samaNilai(b, 20)) pesan.push('Lahan B: kamu menggunakan pengurangan/penjumlahan. Rasio satuan = 16 bibit ÷ 4 m² = <b>4</b>.');
+    else if (b !== null && Math.abs(b - 0.25) < 1e-9) pesan.push('Lahan B: 4 ÷ 16 = 0,25 adalah m² tiap bibit. Yang ditanya bibit tiap 1 m²: 16 ÷ 4 = <b>4</b>.');
+    else pesan.push('Lahan B: 16 bibit ÷ 4 m² = <b>4</b> bibit tiap 1 m².');
+  }
+  if (pesan.length) { setFeedback('fb-unit', 'salah', '<b>Periksa kembali rasio satuanmu:</b><ul class="list-disc ml-5 mt-1">' + pesan.map(p => '<li>' + p + '</li>').join('') + '</ul>'); return; }
+  if (!pilih) { setFeedback('fb-unit', 'info', 'Rasio satuanmu sudah benar: A = 5 bibit/m², B = 4 bibit/m². Sekarang <b>pilih</b> lahan mana yang lebih rapat!'); return; }
+  if (pilih.value === 'A') {
+    kunciInput(['uA', 'uB']);
+    document.querySelectorAll('input[name="rapat"]').forEach(r => r.disabled = true);
+    setFeedback('fb-unit', 'benar', '<b>Benar!</b> Lahan A memiliki <b>5 bibit tiap 1 m²</b>, sedangkan Lahan B hanya <b>4 bibit tiap 1 m²</b>. Karena 5 > 4, penanaman di <b>Lahan A lebih rapat</b>. Walaupun Lahan B jumlah bibitnya lebih banyak (16), lahannya juga lebih luas, sehingga rasio satuan menjadi kunci untuk membandingkan dengan adil.');
+    progres.lab2.unit = true; simpanProgres(); perbaruiChecklistPos2();
+  } else if (pilih.value === 'B') {
+    setFeedback('fb-unit', 'salah', 'Belum tepat. Lahan B memang punya <b>lebih banyak bibit</b> (16 vs 15), tetapi lahannya juga lebih luas. Bandingkan <b>rasio satuannya</b>: A = 5 bibit/m², B = 4 bibit/m². Lahan yang lebih rapat adalah yang bibit tiap 1 m²-nya <b>lebih banyak</b>.');
+  } else {
+    setFeedback('fb-unit', 'salah', 'Tidak sama. Lihat hasil hitunganmu sendiri: 5 bibit/m² untuk A dan 4 bibit/m² untuk B. Karena 5 ≠ 4, kerapatannya berbeda. Mana yang lebih besar?');
+  }
+}
+/* --- Sub-Lab 3: bar model --- */
+let barA = 3, barB = 5;
+function ubahBar(sisi, d) {
+  if (sisi === 'a') barA = Math.min(12, Math.max(1, barA + d));
+  else barB = Math.min(12, Math.max(1, barB + d));
+  gambarBar();
+}
+function teksSederhana(a, b) { const g = fpb(a, b); return g > 1 ? `= ${a / g} : ${b / g} (paling sederhana)` : '(sudah paling sederhana)'; }
+function gambarBar() {
+  const total = barA + barB;
+  $('nilai-a').textContent = barA; $('nilai-b').textContent = barB; $('nilai-total').textContent = total;
+  let html = '';
+  for (let i = 0; i < barA; i++) html += '<span class="kotak-bar bg-blue-500"></span>';
+  for (let i = 0; i < barB; i++) html += '<span class="kotak-bar bg-yellow-400"></span>';
+  $('bar-total').innerHTML = html;
+  $('r-ab').textContent = barA + ' : ' + barB; $('r-ab-s').textContent = teksSederhana(barA, barB);
+  $('r-at').textContent = barA + ' : ' + total; $('r-at-s').textContent = teksSederhana(barA, total);
+  $('r-bt').textContent = barB + ' : ' + total; $('r-bt-s').textContent = teksSederhana(barB, total);
+}
+function cekBarSoal() {
+  const v = angka('jwb-bar');
+  if (v === null) { setFeedback('fb-bar', 'info', 'Isi jumlah bibit tomat terlebih dahulu.'); return; }
+  tandai('jwb-bar', samaNilai(v, 15));
+  if (samaNilai(v, 15)) {
+    kunciInput(['jwb-bar']);
+    setFeedback('fb-bar', 'benar', '<b>Hebat!</b> Langkahnya: (1) Total bagian = 3 + 5 = <b>8 kotak</b>. (2) Nilai 1 kotak = 24 ÷ 8 = <b>3 bibit</b>. (3) Tomat = 5 kotak × 3 = <b>15 bibit</b>. Perhatikan: rasio tomat terhadap keseluruhan adalah 5 : 8 = 15 : 24.');
+    progres.lab2.bar = true; simpanProgres(); perbaruiChecklistPos2();
+  } else if (samaNilai(v, 9)) {
+    setFeedback('fb-bar', 'salah', '<b>9</b> adalah jumlah bibit <b>cabai</b> (3 kotak × 3). Soal menanyakan bibit <b>tomat</b>, yaitu bagian 5 kotak: 5 × 3 = ?');
+  } else if (samaNilai(v, 3)) {
+    setFeedback('fb-bar', 'salah', '<b>3</b> adalah nilai <b>1 kotak</b> (24 ÷ 8). Itu baru langkah kedua! Tomat menempati <b>5 kotak</b>, jadi kalikan: 5 × 3 = ?');
+  } else if (samaNilai(v, 5)) {
+    setFeedback('fb-bar', 'salah', '<b>5</b> adalah angka pada <b>rasio</b> (banyak kotak tomat), bukan jumlah bibit sebenarnya. Cari dulu nilai 1 kotak: 24 ÷ (3 + 5) = ?, lalu kalikan dengan 5.');
+  } else if (samaNilai(v, 24)) {
+    setFeedback('fb-bar', 'salah', '<b>24</b> adalah <b>keseluruhan</b> bibit (cabai + tomat). Tomat hanya <b>bagian</b>-nya, yaitu 5 dari 8 kotak.');
+  } else if (samaNilai(v, 8)) {
+    setFeedback('fb-bar', 'salah', '<b>8</b> adalah <b>jumlah kotak</b> seluruhnya (3 + 5). Gunakan angka itu untuk mencari nilai 1 kotak: 24 ÷ 8 = 3, lalu tomat = 5 × 3.');
+  } else if (samaNilai(v, 19) || samaNilai(v, 21)) {
+    setFeedback('fb-bar', 'salah', 'Sepertinya kamu <b>mengurangkan</b> dari 24. Gunakan bar model: 8 kotak mewakili 24 bibit → 1 kotak = 3 bibit → tomat (5 kotak) = 15 bibit.');
+  } else {
+    setFeedback('fb-bar', 'salah', 'Belum tepat. Ikuti bar model: <b>8 kotak = 24 bibit</b>, sehingga 1 kotak = 3 bibit. Tomat menempati 5 kotak. Berapa 5 × 3?');
+  }
+}
+
+/* =====================================================================
+   POS 3: RASIO DURASI WAKTU
+   ===================================================================== */
+const KASUS = [
+  {
+    judul: 'Kasus 1: Rasio waktu membaca 45 menit terhadap waktu olahraga 1,5 jam',
+    cerita: 'Setiap sore, Dinda membaca buku selama 45 menit lalu berolahraga selama 1,5 jam. Tentukan rasio waktu membaca terhadap waktu olahraga dalam bentuk paling sederhana.',
+    konvLabel: 'Satuan jam lebih besar daripada menit. Ubah: 1,5 jam =', konvSatuan: 'menit',
+    konv: 90, besar: '1,5 jam', kecilSatuan: 'menit',
+    a: 45, b: 90, sederhana: [1, 2],
+    namaA: 'waktu membaca', namaB: 'waktu olahraga',
+    diagKonv: (v) => {
+      if (samaNilai(v, 150)) return '<b>150 keliru.</b> 1,5 jam bukan 1 jam 50 menit. Ingat 1 jam = <b>60 menit</b>, maka 0,5 jam = 30 menit. Jadi 1,5 jam = 60 + 30 = ?';
+      if (samaNilai(v, 60)) return '<b>60 menit</b> baru <b>1 jam</b>. Masih ada 0,5 jam lagi (= 30 menit) yang belum dihitung.';
+      if (samaNilai(v, 1.5)) return 'Kamu masih menulis dalam satuan <b>jam</b>. Gembok hanya terbuka jika satuannya sudah <b>menit</b>: 1,5 × 60 = ?';
+      if (samaNilai(v, 105)) return 'Hampir! 105 = 60 + 45, tetapi 0,5 jam bukan 45 menit. Setengah dari 60 menit adalah <b>30 menit</b>.';
+      if (samaNilai(v, 30)) return '<b>30 menit</b> hanya setengah jam (0,5 jam). Tambahkan 1 jam penuh (60 menit): 60 + 30 = ?';
+      return 'Belum tepat. Gunakan 1 jam = 60 menit. Maka 1,5 jam = 1,5 × 60 = ? menit.';
+    }
+  },
+  {
+    judul: 'Kasus 2: Rasio waktu semai bibit 2 minggu terhadap masa perawatan 35 hari',
+    cerita: 'Di kebun sekolah, bibit cabai disemai selama 2 minggu, lalu dirawat di polibag selama 35 hari sebelum dipindah ke lahan. Tentukan rasio waktu semai terhadap masa perawatan dalam bentuk paling sederhana.',
+    konvLabel: 'Satuan minggu lebih besar daripada hari. Ubah: 2 minggu =', konvSatuan: 'hari',
+    konv: 14, besar: '2 minggu', kecilSatuan: 'hari',
+    a: 14, b: 35, sederhana: [2, 5],
+    namaA: 'waktu semai', namaB: 'masa perawatan',
+    diagKonv: (v) => {
+      if (samaNilai(v, 2)) return 'Kamu masih menulis dalam satuan <b>minggu</b>. Ubah ke <b>hari</b> dulu: 1 minggu = 7 hari, maka 2 minggu = 2 × 7 = ?';
+      if (samaNilai(v, 7)) return '<b>7 hari</b> baru <b>1 minggu</b>. Kasus ini 2 minggu, jadi 7 × 2 = ?';
+      if (samaNilai(v, 20)) return '1 minggu bukan 10 hari. 1 minggu = <b>7 hari</b>, jadi 2 minggu = 2 × 7 = ?';
+      if (samaNilai(v, 60) || samaNilai(v, 120)) return 'Itu konversi untuk jam/menit. Untuk minggu, gunakan 1 minggu = <b>7 hari</b>.';
+      if (samaNilai(v, 9)) return 'Kamu <b>menjumlahkan</b> 2 + 7 = 9. Konversi menggunakan <b>perkalian</b>: 2 minggu × 7 hari = ?';
+      return 'Belum tepat. Gunakan 1 minggu = 7 hari. Maka 2 minggu = 2 × 7 = ? hari.';
+    }
+  }
+];
+let kasusAktif = 0;
+function gantiKasus(i) {
+  kasusAktif = i;
+  const k = KASUS[i];
+  [0, 1].forEach(j => $('tabp3-' + j).classList.toggle('active', j === i));
+  $('k-judul').textContent = k.judul;
+  $('k-cerita').textContent = k.cerita;
+  $('k-konv-label').textContent = k.konvLabel;
+  $('k-konv-satuan').textContent = k.konvSatuan;
+  $('k-rasio-sama').innerHTML = '';
+  $('k-rasio-awal').textContent = '? : ?';
+  $('k-fpb').textContent = '÷ ?';
+  ['k-konv', 'k-s1', 'k-s2'].forEach(id => { $(id).value = ''; $(id).disabled = false; $(id).classList.remove('benar', 'salah'); });
+  $('fb-konv').className = 'umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold';
+  $('fb-kwaktu').className = 'umpan-balik mt-3 rounded-xl p-3 text-sm font-semibold';
+  $('btn-kasus-berikut').classList.toggle('hidden', i === 1);
+  if (progres.lab3[i]) {
+    $('k-konv').value = k.konv; $('k-s1').value = k.sederhana[0]; $('k-s2').value = k.sederhana[1];
+    bukaGembok2(k); kunciInput(['k-konv', 'k-s1', 'k-s2']);
+    $('ikon-gembok2').textContent = '🔓';
+    setFeedback('fb-kwaktu', 'benar', 'Kasus ini sudah kamu selesaikan. ✔');
+  } else {
+    $('gembok1').className = 'bg-white rounded-2xl p-4 shadow border-2 border-amber-200 mb-3 gembok terbuka';
+    $('gembok2').className = 'bg-white rounded-2xl p-4 shadow border-2 border-green-200 gembok terkunci';
+    $('ikon-gembok1').textContent = '🔒'; $('ikon-gembok2').textContent = '🔒';
+  }
+}
+function bukaGembok2(k) {
+  $('gembok1').className = 'bg-white rounded-2xl p-4 shadow border-2 border-green-300 mb-3 gembok terbuka';
+  $('gembok2').className = 'bg-white rounded-2xl p-4 shadow border-2 border-green-300 gembok terbuka pop';
+  $('ikon-gembok1').textContent = '🔓';
+  $('k-rasio-sama').innerHTML = `Satuan sudah sama: <b>${k.a} ${k.kecilSatuan} : ${k.b} ${k.kecilSatuan}</b>. Sekarang bagi kedua bilangan dengan FPB-nya.`;
+  $('k-rasio-awal').textContent = k.a + ' : ' + k.b;
+  $('k-fpb').textContent = '÷ FPB';
+}
+function cekKonversi() {
+  const k = KASUS[kasusAktif];
+  const v = angka('k-konv');
+  if (v === null) { setFeedback('fb-konv', 'info', 'Masukkan hasil konversinya dulu, ya!'); return; }
+  if (samaNilai(v, k.konv)) {
+    tandai('k-konv', true); $('k-konv').disabled = true;
+    setFeedback('fb-konv', 'benar', `<b>Gembok terbuka! 🔓</b> ${k.besar} = <b>${k.konv} ${k.konvSatuan}</b>. Sekarang kedua durasi memiliki satuan yang sama (${k.kecilSatuan}), sehingga rasionya boleh dibandingkan: ${k.a} : ${k.b}.`);
+    bukaGembok2(k);
+  } else {
+    tandai('k-konv', false);
+    setFeedback('fb-konv', 'salah', k.diagKonv(v));
+  }
+}
+function cekSederhanaWaktu() {
+  const k = KASUS[kasusAktif];
+  if (kosong(['k-s1', 'k-s2'])) { setFeedback('fb-kwaktu', 'info', 'Isi kedua bilangan rasio paling sederhananya.'); return; }
+  const a = angka('k-s1'), b = angka('k-s2');
+  const [sa, sb] = k.sederhana;
+  const g = fpb(k.a, k.b);
+  tandai('k-s1', samaNilai(a, sa)); tandai('k-s2', samaNilai(b, sb));
+  if (samaNilai(a, sa) && samaNilai(b, sb)) {
+    kunciInput(['k-s1', 'k-s2']); $('ikon-gembok2').textContent = '🔓'; $('k-fpb').textContent = '÷ ' + g;
+    setFeedback('fb-kwaktu', 'benar', `<b>Luar biasa!</b> ${k.a} : ${k.b} → (${k.a} ÷ ${g}) : (${k.b} ÷ ${g}) = <b>${sa} : ${sb}</b>. Jadi rasio ${k.namaA} terhadap ${k.namaB} adalah <b>${sa} : ${sb}</b>.`);
+    progres.lab3[kasusAktif] = true; simpanProgres();
+    if (progres.lab3[0] && progres.lab3[1]) { $('pos3-selesai').classList.remove('hidden'); tandaiPosSelesai(3); }
+    else if (kasusAktif === 0) toast('Kasus 1 selesai! Lanjut ke Kasus 2.', '🔓');
+    return;
+  }
+  if (samaNilai(a, sb) && samaNilai(b, sa)) {
+    setFeedback('fb-kwaktu', 'salah', `<b>Urutannya terbalik!</b> Soal meminta rasio <b>${k.namaA}</b> terhadap <b>${k.namaB}</b>. ${k.namaA.charAt(0).toUpperCase() + k.namaA.slice(1)} (${k.a} ${k.kecilSatuan}) disebut lebih dulu, jadi hasilnya harus <b>${sa} : ${sb}</b>, bukan ${a} : ${b}.`);
+  } else if (samaNilai(a, k.a) && samaNilai(b, k.b)) {
+    setFeedback('fb-kwaktu', 'salah', `${a} : ${b} masih <b>rasio awal</b>, belum disederhanakan. Kedua bilangan masih bisa dibagi dengan FPB-nya, yaitu <b>${g}</b>: ${k.a} ÷ ${g} = ? dan ${k.b} ÷ ${g} = ?`);
+  } else if (a !== null && b !== null && b !== 0 && Math.abs(a / b - sa / sb) < 1e-9) {
+    const gg = fpb(a, b);
+    setFeedback('fb-kwaktu', 'salah', `${a} : ${b} memang <b>senilai</b> dengan ${k.a} : ${k.b}, tetapi <b>belum paling sederhana</b> karena keduanya masih bisa dibagi ${gg}. Bagilah ${k.a} dan ${k.b} dengan FPB-nya, yaitu <b>${g}</b>.`);
+  } else if ((samaNilai(a, k.a) && !samaNilai(b, k.b)) || (!samaNilai(a, k.a) && samaNilai(b, k.b))) {
+    setFeedback('fb-kwaktu', 'salah', `Kedua bilangan harus dibagi dengan angka yang <b>sama</b> agar rasionya tetap senilai. Bagi ${k.a} <b>dan</b> ${k.b} dengan FPB = <b>${g}</b>.`);
+  } else {
+    setFeedback('fb-kwaktu', 'salah', `Belum tepat. Cari FPB dari ${k.a} dan ${k.b} (yaitu <b>${g}</b>), lalu bagi kedua bilangan: ${k.a} ÷ ${g} = ? dan ${k.b} ÷ ${g} = ?`);
+  }
+}
+function kasusBerikut() { gantiKasus(1); }
+
+/* =====================================================================
+   POS 4: UJI KEMAMPUAN (10 SOAL)
+   ===================================================================== */
+const SOAL = [
+  {
+    sub: 'Subbab A · Menulis Rasio',
+    teks: 'Di dalam keranjang Bu Sari terdapat 5 buah jeruk dan 8 buah apel. Rasio banyak jeruk terhadap banyak apel adalah ....',
+    visual: '<div class="text-2xl bg-white rounded-xl p-2 inline-block">🍊🍊🍊🍊🍊 &nbsp; 🍎🍎🍎🍎🍎🍎🍎🍎</div>',
+    opsi: ['8 : 5', '5 : 8', '5 : 13', '13 : 5'],
+    kunci: 1,
+    pembahasan: [
+      'Tentukan besaran yang disebut <b>lebih dulu</b>: "jeruk terhadap apel" → jeruk di depan.',
+      'Banyak jeruk = <b>5</b>, banyak apel = <b>8</b>.',
+      'Tuliskan rasio sesuai urutan: jeruk : apel = <b>5 : 8</b>.',
+      'Opsi A (8 : 5) urutannya terbalik. Opsi C dan D menggunakan 13, yaitu jumlah <b>seluruh</b> buah, padahal yang dibandingkan adalah bagian dengan bagian.'
+    ]
+  },
+  {
+    sub: 'Subbab A · Ketepatan Urutan',
+    teks: 'Kelas 6 Nusantara memiliki 12 siswa laki-laki dan 16 siswa perempuan. Pernyataan yang BENAR adalah ....',
+    visual: '',
+    opsi: ['Rasio siswa perempuan terhadap laki-laki adalah 12 : 16', 'Rasio siswa laki-laki terhadap perempuan adalah 16 : 12', 'Rasio siswa perempuan terhadap laki-laki adalah 16 : 12', 'Rasio siswa laki-laki terhadap seluruh siswa adalah 12 : 16'],
+    kunci: 2,
+    pembahasan: [
+      'Laki-laki = 12, perempuan = 16, seluruh siswa = 12 + 16 = 28.',
+      'Rasio <b>perempuan terhadap laki-laki</b> = 16 : 12 (perempuan di depan). Ini pernyataan <b>C</b>, benar.',
+      'Opsi A terbalik: 12 : 16 adalah rasio laki-laki terhadap perempuan.',
+      'Opsi B terbalik: laki-laki terhadap perempuan seharusnya 12 : 16.',
+      'Opsi D keliru: laki-laki terhadap seluruh siswa seharusnya 12 : 28, bukan 12 : 16.'
+    ]
+  },
+  {
+    sub: 'Subbab B · Tabel Rasio',
+    teks: 'Perhatikan tabel rasio paket buku berikut. Nilai yang tepat untuk mengisi kotak yang kosong adalah ....',
+    visual: `<table class="table-rasio bg-white rounded-xl overflow-hidden text-sm font-extrabold shadow-sm">
+      <tr class="bg-purple-100"><th class="px-3">Banyak paket</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+      <tr><th class="px-3 bg-purple-50">Banyak buku</th><td>3</td><td>6</td><td>9</td><td class="bg-yellow-100 text-yellow-700 text-lg">?</td><td>15</td></tr></table>`,
+    opsi: ['8', '10', '12', '14'],
+    kunci: 2,
+    pembahasan: [
+      'Rasio paket terhadap buku pada kolom pertama adalah 1 : 3. Artinya setiap 1 paket berisi 3 buku.',
+      'Untuk 4 paket, kalikan kedua bilangan rasio dengan 4: (1 × 4) : (3 × 4) = 4 : <b>12</b>.',
+      'Cek pola tabel: 3, 6, 9, <b>12</b>, 15 (bertambah 3 setiap 1 paket). Jadi jawabannya <b>12</b>.',
+      'Opsi A (8) muncul jika salah menambah 2, opsi B (10) jika menganggap kelipatan 5 dari kolom terakhir.'
+    ]
+  },
+  {
+    sub: 'Subbab B · Rasio Paling Sederhana',
+    teks: 'Sebuah kelompok tani menanam 24 bibit mahoni dan 36 bibit jati. Bentuk paling sederhana dari rasio bibit mahoni terhadap bibit jati adalah ....',
+    visual: '',
+    opsi: ['12 : 18', '4 : 6', '2 : 3', '3 : 2'],
+    kunci: 2,
+    pembahasan: [
+      'Rasio awal mahoni : jati = 24 : 36.',
+      'Cari FPB dari 24 dan 36. Faktor 24: 1, 2, 3, 4, 6, 8, 12, 24. Faktor 36: 1, 2, 3, 4, 6, 9, 12, 18, 36. FPB = <b>12</b>.',
+      'Bagi kedua bilangan dengan 12: (24 ÷ 12) : (36 ÷ 12) = <b>2 : 3</b>.',
+      'Opsi A (÷2) dan B (÷6) memang senilai tetapi <b>belum paling sederhana</b>. Opsi D (3 : 2) urutannya <b>terbalik</b>.'
+    ]
+  },
+  {
+    sub: 'Subbab B · Rasio Satuan',
+    teks: 'Toko Cerdas menjual 3 buku tulis seharga Rp12.000,00. Toko Pintar menjual 5 buku tulis yang sama seharga Rp22.500,00. Pernyataan yang tepat adalah ....',
+    visual: '',
+    opsi: ['Toko Cerdas lebih murah, Rp4.000,00 per buku', 'Toko Pintar lebih murah, Rp4.500,00 per buku', 'Harga per buku di kedua toko sama', 'Toko Pintar lebih murah, Rp4.000,00 per buku'],
+    kunci: 0,
+    pembahasan: [
+      'Hitung <b>rasio satuan</b> (harga per 1 buku) masing-masing toko.',
+      'Toko Cerdas: Rp12.000 ÷ 3 = <b>Rp4.000</b> per buku.',
+      'Toko Pintar: Rp22.500 ÷ 5 = <b>Rp4.500</b> per buku.',
+      'Karena Rp4.000 < Rp4.500, <b>Toko Cerdas lebih murah</b> per bukunya. Jawaban A.',
+      'Jangan tertipu harga total yang terlihat "lebih banyak dapat buku": bandingkan selalu harga untuk 1 satuan.'
+    ]
+  },
+  {
+    sub: 'Subbab B · Rasio Satuan',
+    teks: 'Mobil P menempuh 180 km dengan 12 liter bensin. Mobil Q menempuh 200 km dengan 16 liter bensin. Mobil yang lebih hemat bahan bakar adalah ....',
+    visual: '',
+    opsi: ['Mobil Q, karena jaraknya lebih jauh', 'Mobil P, karena 15 km per liter lebih besar dari 12,5 km per liter', 'Mobil Q, karena 16 liter lebih banyak dari 12 liter', 'Keduanya sama hemat'],
+    kunci: 1,
+    pembahasan: [
+      'Hemat berarti <b>jarak yang ditempuh untuk setiap 1 liter</b> lebih jauh (rasio satuan km per liter).',
+      'Mobil P: 180 km ÷ 12 liter = <b>15 km per liter</b>.',
+      'Mobil Q: 200 km ÷ 16 liter = <b>12,5 km per liter</b>.',
+      'Karena 15 > 12,5, <b>Mobil P lebih hemat</b>. Jawaban B.',
+      'Opsi A dan C hanya melihat satu besaran (jarak atau bensin) tanpa membandingkan keduanya dengan rasio satuan.'
+    ]
+  },
+  {
+    sub: 'Subbab B · Bagian terhadap Keseluruhan',
+    teks: 'Rasio kelereng merah terhadap kelereng biru milik Bima adalah 2 : 5. Jika jumlah seluruh kelereng Bima 35 butir, banyak kelereng biru adalah ....',
+    visual: '<div class="flex"><span class="kotak-bar bg-red-400"></span><span class="kotak-bar bg-red-400"></span><span class="kotak-bar bg-blue-500"></span><span class="kotak-bar bg-blue-500"></span><span class="kotak-bar bg-blue-500"></span><span class="kotak-bar bg-blue-500"></span><span class="kotak-bar bg-blue-500"></span><span class="font-extrabold text-sm ml-2 self-center">= 35 butir</span></div>',
+    opsi: ['10 butir', '14 butir', '25 butir', '30 butir'],
+    kunci: 2,
+    pembahasan: [
+      'Jumlah bagian pada rasio = 2 + 5 = <b>7 bagian</b> (lihat 7 kotak pada bar model).',
+      'Nilai 1 bagian = 35 ÷ 7 = <b>5 butir</b>.',
+      'Kelereng biru = 5 bagian × 5 butir = <b>25 butir</b>. Jawaban C.',
+      'Opsi A (10) adalah banyak kelereng <b>merah</b> (2 × 5). Opsi B (14) muncul jika keliru menghitung 35 × 2 ÷ 5.'
+    ]
+  },
+  {
+    sub: 'Subbab B · Bagian terhadap Keseluruhan',
+    teks: 'Rasio banyak bunga mawar terhadap seluruh bunga di taman sekolah adalah 3 : 7. Jika di taman itu ada 42 bunga, banyak bunga yang BUKAN mawar adalah ....',
+    visual: '',
+    opsi: ['18 bunga', '24 bunga', '28 bunga', '30 bunga'],
+    kunci: 1,
+    pembahasan: [
+      'Rasio 3 : 7 adalah rasio <b>bagian terhadap keseluruhan</b>: 3 dari setiap 7 bunga adalah mawar.',
+      'Nilai 1 bagian = 42 ÷ 7 = <b>6 bunga</b>.',
+      'Banyak mawar = 3 × 6 = <b>18 bunga</b>.',
+      'Bunga bukan mawar = 42 − 18 = <b>24 bunga</b> (atau 4 bagian × 6 = 24). Jawaban B.',
+      'Opsi A (18) adalah banyak <b>mawar</b>, bukan yang ditanyakan. Bacalah pertanyaan sampai tuntas!'
+    ]
+  },
+  {
+    sub: 'Subbab C · Rasio Durasi Waktu',
+    teks: 'Masa tanam tanaman padi sekitar 4 bulan, sedangkan pohon jati baru bisa dipanen setelah sekitar 1 tahun pembibitan. Rasio masa tanam padi terhadap masa pembibitan jati dalam bentuk paling sederhana adalah ....',
+    visual: '',
+    opsi: ['4 : 1', '1 : 3', '3 : 1', '4 : 12'],
+    kunci: 1,
+    pembahasan: [
+      'Satuannya berbeda (bulan dan tahun), jadi <b>samakan dulu</b>: 1 tahun = <b>12 bulan</b>.',
+      'Rasio padi : jati = 4 bulan : 12 bulan = 4 : 12.',
+      'Sederhanakan dengan FPB(4, 12) = 4 → (4 ÷ 4) : (12 ÷ 4) = <b>1 : 3</b>. Jawaban B.',
+      'Opsi A (4 : 1) salah karena membandingkan 4 bulan dengan 1 tahun tanpa menyamakan satuan. Opsi C terbalik. Opsi D belum paling sederhana.'
+    ]
+  },
+  {
+    sub: 'Subbab C · Prediksi Waktu dengan Rasio',
+    teks: 'Rasio lama latihan tari terhadap lama latihan musik di sanggar Nusantara adalah 5 : 2. Jika latihan musik berlangsung 1 jam, lama latihan tari adalah ....',
+    visual: '',
+    opsi: ['2 jam 30 menit', '1 jam 50 menit', '2 jam 5 menit', '5 jam'],
+    kunci: 0,
+    pembahasan: [
+      'Ubah ke satuan yang lebih kecil agar mudah dibagi: 1 jam = <b>60 menit</b>.',
+      'Latihan musik = 2 bagian = 60 menit, maka 1 bagian = 60 ÷ 2 = <b>30 menit</b>.',
+      'Latihan tari = 5 bagian × 30 menit = <b>150 menit</b>.',
+      '150 menit = 120 menit + 30 menit = <b>2 jam 30 menit</b>. Jawaban A.',
+      'Opsi B dan C keliru mengubah 150 menit (bukan 1,50 atau 2,05 jam). Opsi D (5 jam) mengabaikan bahwa 2 bagian = 1 jam.'
+    ]
+  }
+];
+const HURUF = ['A', 'B', 'C', 'D'];
+let soalAktif = 0;
+let jawaban = []; // {pilih: index|null, diperiksa: bool, benar: bool}
+
+function mulaiEvaluasi(ulang) {
+  soalAktif = 0;
+  jawaban = SOAL.map(() => ({ pilih: null, diperiksa: false, benar: false }));
+  $('btn-selesai').classList.add('hidden');
+  gambarNavSoal();
+  tampilkanSoal(0);
+  tampilkanLayar('pos4');
+}
+function gambarNavSoal() {
+  let html = '';
+  SOAL.forEach((s, i) => {
+    const j = jawaban[i];
+    let warna = 'bg-slate-200 text-slate-600';
+    if (j.diperiksa) warna = j.benar ? 'bg-green-500 text-white' : 'bg-red-400 text-white';
+    else if (j.pilih !== null) warna = 'bg-sky-200 text-sky-800';
+    html += `<button class="nav-soal ${warna} ${i === soalAktif ? 'aktif' : ''}" onclick="tampilkanSoal(${i})">${i + 1}</button>`;
+  });
+  $('nav-soal').innerHTML = html;
+  const terjawab = jawaban.filter(j => j.diperiksa).length;
+  $('q-terjawab').textContent = terjawab;
+  $('q-bar').style.width = (terjawab * 10) + '%';
+  $('btn-selesai').classList.toggle('hidden', terjawab < SOAL.length);
+}
+function tampilkanSoal(i) {
+  soalAktif = i;
+  const s = SOAL[i], j = jawaban[i];
+  $('q-label').textContent = 'Soal ' + (i + 1) + ' dari 10 · ' + s.sub;
+  $('q-teks').textContent = s.teks;
+  $('q-visual').innerHTML = s.visual;
+  let html = '';
+  s.opsi.forEach((o, k) => {
+    let kelas = 'opsi';
+    if (j.diperiksa) {
+      kelas += ' terkunci';
+      if (k === s.kunci) kelas += ' benar';
+      else if (k === j.pilih) kelas += ' salah';
+    } else if (j.pilih === k) kelas += ' dipilih';
+    html += `<div class="${kelas} bg-white rounded-xl px-3 py-2 flex items-center gap-3 font-bold text-sm sm:text-base" onclick="pilihOpsi(${k})">
+      <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-judul shrink-0">${HURUF[k]}</span><span>${o}</span>
+      ${j.diperiksa && k === s.kunci ? '<span class="ml-auto text-green-600 text-xl">✔</span>' : ''}${j.diperiksa && k === j.pilih && k !== s.kunci ? '<span class="ml-auto text-red-500 text-xl">✘</span>' : ''}
+    </div>`;
+  });
+  $('q-opsi').innerHTML = html;
+  $('btn-periksa').disabled = j.diperiksa;
+  $('btn-periksa').classList.toggle('opacity-40', j.diperiksa);
+  $('btn-prev').classList.toggle('invisible', i === 0);
+  $('btn-next').classList.toggle('invisible', i === SOAL.length - 1);
+  if (j.diperiksa) tampilkanPembahasan(i); else {
+    $('q-pembahasan').className = 'rounded-2xl p-4 border-2 border-dashed border-slate-200 bg-slate-50 min-h-[200px] h-full';
+    $('q-pembahasan').innerHTML = '<div class="text-center text-slate-400 font-semibold mt-6"><div class="text-4xl mb-2">📝</div>Pilih jawaban, lalu klik <b>Periksa Jawaban</b> untuk melihat pembahasan langkah demi langkah.</div>';
+  }
+  gambarNavSoal();
+}
+function pilihOpsi(k) {
+  if (jawaban[soalAktif].diperiksa) return;
+  jawaban[soalAktif].pilih = k;
+  tampilkanSoal(soalAktif);
+}
+function periksaJawaban() {
+  const j = jawaban[soalAktif], s = SOAL[soalAktif];
+  if (j.diperiksa) return;
+  if (j.pilih === null) { toast('Pilih salah satu jawaban dulu, ya!', '👆'); return; }
+  j.diperiksa = true;
+  j.benar = j.pilih === s.kunci;
+  tampilkanSoal(soalAktif);
+  if (jawaban.every(x => x.diperiksa)) toast('Semua soal terjawab! Klik "Lihat Hasil Akhir".', '🏁');
+}
+function tampilkanPembahasan(i) {
+  const s = SOAL[i], j = jawaban[i];
+  const box = $('q-pembahasan');
+  box.className = 'rounded-2xl p-4 border-2 h-full pop ' + (j.benar ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50');
+  box.innerHTML = `
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-3xl">${j.benar ? '🎉' : '🤔'}</span>
+      <div><p class="font-judul text-lg font-bold ${j.benar ? 'text-green-700' : 'text-red-700'}">${j.benar ? 'Jawabanmu Benar!' : 'Jawabanmu Belum Tepat'}</p>
+      <p class="text-xs font-bold text-slate-600">Kamu memilih <b>${HURUF[j.pilih]}</b>. Kunci jawaban: <b>${HURUF[s.kunci]}</b> (${s.opsi[s.kunci]})</p></div>
+    </div>
+    <p class="font-extrabold text-slate-700 text-sm mb-1"><i class="fa-solid fa-list-ol"></i> Pembahasan Langkah demi Langkah:</p>
+    <ol class="space-y-1.5 text-sm font-semibold text-slate-700">
+      ${s.pembahasan.map((p, n) => `<li class="flex gap-2"><span class="w-6 h-6 rounded-full bg-white border-2 ${j.benar ? 'border-green-400 text-green-700' : 'border-red-400 text-red-700'} flex items-center justify-center text-xs font-extrabold shrink-0">${n + 1}</span><span>${p}</span></li>`).join('')}
+    </ol>`;
+}
+function pindahSoal(d) {
+  const n = soalAktif + d;
+  if (n < 0 || n >= SOAL.length) return;
+  tampilkanSoal(n);
+}
+function selesaiEvaluasi() {
+  if (!jawaban.every(x => x.diperiksa)) { toast('Masih ada soal yang belum diperiksa.', '⚠️'); return; }
+  const benar = jawaban.filter(x => x.benar).length;
+  const skor = benar * 10;
+  let predikat, pesan, ikon;
+  if (skor >= 90) { predikat = 'Luar Biasa! Penjelajah Rasio Sejati 🌟'; pesan = 'Kamu menguasai konsep rasio, kesamaan rasio, dan rasio waktu dengan sangat baik. Pertahankan!'; ikon = '🏆'; }
+  else if (skor >= 70) { predikat = 'Hebat! Penjelajah Andal 🎖️'; pesan = 'Pemahamanmu sudah baik. Pelajari kembali pembahasan soal yang keliru agar makin mantap.'; ikon = '🥇'; }
+  else if (skor >= 50) { predikat = 'Cukup Baik, Terus Berlatih 💪'; pesan = 'Kamu sudah di jalur yang benar. Ulangi Pos 2 dan Pos 3, lalu coba evaluasi lagi.'; ikon = '🥈'; }
+  else { predikat = 'Jangan Menyerah, Ayo Coba Lagi! 🚀'; pesan = 'Setiap penjelajah hebat pernah tersesat. Baca ulang materi di setiap pos, lalu ulangi evaluasinya.'; ikon = '🧭'; }
+  $('h-ikon').textContent = ikon;
+  $('h-skor').textContent = skor;
+  $('h-predikat').textContent = predikat;
+  $('h-pesan').textContent = pesan;
+  const lulus = skor >= 70;
+  $('h-status').className = 'chip text-base mx-auto mb-3 ' + (lulus ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700');
+  $('h-status').innerHTML = lulus ? '<i class="fa-solid fa-circle-check"></i> Status Misi: LULUS (' + benar + ' dari 10 benar)' : '<i class="fa-solid fa-circle-exclamation"></i> Status Misi: BELUM LULUS (' + benar + ' dari 10 benar, minimal 7)';
+  $('h-rincian').innerHTML = jawaban.map((x, i) => `<div class="rounded-lg py-1 text-xs font-extrabold text-white ${x.benar ? 'bg-green-500' : 'bg-red-400'}" title="Soal ${i + 1}">${i + 1}</div>`).join('');
+  if (progres.skorTerbaik === null || skor > progres.skorTerbaik) progres.skorTerbaik = skor;
+  simpanProgres();
+  if (lulus) tandaiPosSelesai(4); else perbaruiPeta();
+  tampilkanLayar('hasil');
+  if (skor === 100) toast('SEMPURNA! Skor 100! 🎊', '🎊');
+}
+
+/* ---------- INISIALISASI ---------- */
+(function init() {
+  muatProgres();
+  perbaruiPeta();
+  gambarBar();
+  gantiKasus(0);
+  // Pulihkan tampilan lab yang sudah selesai sebelumnya
+  if (progres.lab1.t1) { $('l1a').value = 4; $('l1b').value = 6; kunciInput(['l1a', 'l1b']); }
+  if (progres.lab1.t2) { $('l2a').value = 6; $('l2b').value = 4; kunciInput(['l2a', 'l2b']); }
+  if (progres.lab1.t1 && progres.lab1.t2) $('pos1-selesai').classList.remove('hidden');
+  if (progres.lab2.tabel) { $('t1').value = 6; $('t2').value = 15; $('t3').value = 6; $('t4').value = 10; kunciInput(['t1', 't2', 't3', 't4']); }
+  if (progres.lab2.sederhana) { $('fpb').value = 12; $('s1').value = 2; $('s2').value = 3; kunciInput(['fpb', 's1', 's2']); }
+  if (progres.lab2.unit) { $('uA').value = 5; $('uB').value = 4; kunciInput(['uA', 'uB']); const r = document.querySelector('input[name="rapat"][value="A"]'); r.checked = true; document.querySelectorAll('input[name="rapat"]').forEach(x => x.disabled = true); }
+  if (progres.lab2.bar) { $('jwb-bar').value = 15; kunciInput(['jwb-bar']); }
+  perbaruiChecklistPos2();
+  if (progres.lab3[0] && progres.lab3[1]) $('pos3-selesai').classList.remove('hidden');
+  // Tekan Enter pada input = periksa
+  const petaEnter = { l1a: () => cekLab1(1), l1b: () => cekLab1(1), l2a: () => cekLab1(2), l2b: () => cekLab1(2), t1: cekTabel, t2: cekTabel, t3: cekTabel, t4: cekTabel, fpb: cekSederhana, s1: cekSederhana, s2: cekSederhana, uA: cekUnit, uB: cekUnit, 'jwb-bar': cekBarSoal, 'k-konv': cekKonversi, 'k-s1': cekSederhanaWaktu, 'k-s2': cekSederhanaWaktu };
+  Object.keys(petaEnter).forEach(id => $(id).addEventListener('keydown', e => { if (e.key === 'Enter') petaEnter[id](); }));
+})();
+</script>
+</body>
+</html>
